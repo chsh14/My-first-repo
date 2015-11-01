@@ -1,62 +1,92 @@
-" An example for a vimrc file.
-"
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" Last change:	2014 Feb 05
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
-
-" When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
   finish
 endif
-syntax on
-" Use Vim settings, rather than Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
 
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
+set history=700
 
-colorscheme industry 
+"Color options 
+syntax enable
+colorscheme distinguished 
+set background=dark
 
+set t_Co=256
+set showmode
+
+set autoindent
+set smartindent
+set backspace=eol,start,indent
+set autoread "auto updated the current buffer with the updated contents
+
+" Spaces and tabs
+set expandtab "tabs are spaces
+set tabstop=4 "number of visual spaces per TAB
+set softtabstop=4   " number of spaces in tab when editing
+set shiftwidth=4 " Auto indent amount when using >> or << 
+set virtualedit=all "ability to walk through the empty area of the file in normal mode
+
+"UI
+set ruler " always show current position along the bottom
+set number "turn on line numbers
+set showcmd " show commandn in bottom bar
+set cursorline          " highlight current line
+filetype indent on      " load language -specific indent files:.vim/indent
+set wildmenu            " visual autocomplete for command menu
+set showmatch           " highlight matching [{()}]
+set cpoptions+=$ "put a dollar sign when using c command or r or s
+
+" Text Formating/Layout
+set ignorecase "case insensitive by default
+set smartcase "If there are CAPS go-sensitive
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
 else
   set backup		" keep a backup file (restore to previous version)
   set undofile		" keep an undo file (undo changes after closing)
 endif
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
 
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
-
-" Don't use Ex mode, use Q for formatting
-map Q gq
-
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
-
+set hlsearch
+"set backup
+"set backupdir=~/vim/tmp/
+set nowrap
+set laststatus=2
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set mouse=a
 endif
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
-endif
+" CUSTOM Mappings (the 'nor' in any mapping keyword means nonrecursive
+" inorder to use <leader> before any mappings
+:let mapleader = ","
 
-" Only do this part when compiled with support for autocommands.
+" mappings, first letter tells in which mode. 
+xnoremap p "_dP 
+"This is help to paste the same thing second time.. so it
+"replaces doing v"0p with only p
+
+"mapping F2 key to toggle the paste option (only in normal mode)                                                   
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2> " This will toggle the paste mode. the noformat paste will only work when the paste mode is on
+set showmode "This will show the paste mode or not
+
+ "mapping F5 key to :e! in only normal mode(nnorremap) which will refresh the current log(below)
+nnoremap <F5> :e!<CR>; 
+
+" mapping of ctrl-d to delete the current line in insert mode.
+inoremap <c-d> <esc>ddi
+
+"short cut to source the vimrc file (,sv) 
+:nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" shortcut to open the vimrc file
+nnoremap <leader>ev :e $MYVIMRC<cr>                           
+
+"toggle numbers-> nonumbers
+nnoremap <leader>n :set invnumber<cr>
+" set list listchars=trail:_
+" set listchars=tab:·\ ,trail:·,extends:»,precedes:«
+" :highlight SpecialKey ctermfg=darkgrey ctermbg=yellow
+"
+" " Only do this part when compiled with support for autocommands.
 if has("autocmd")
 
   " Enable file type detection.
@@ -90,10 +120,3 @@ else
 
 endif " has("autocmd")
 
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
-endif
