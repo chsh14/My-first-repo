@@ -22,7 +22,7 @@ if (defined $inputDir ) {
     #print "Dir Parent: $dir[0]";
     foreach my $n (@dir) {
         if (not defined $insideDir ) {
-            print "$n";
+            print "cd $n";
         }
     }
 }
@@ -33,12 +33,13 @@ if (defined $insideDir ) {
     my $rule2 =  File::Find::Rule->new; 
     $rule2->directory; 
     $rule2->name( "*$insideDir*" );
-    $rule2->maxdepth( 1 ); 
+    #$rule2->maxdepth( 1 ); 
     my @insidedir = $rule2->in($dir[0]);
-    foreach my $n (@insidedir) {
-        print "$n";
+    #foreach my $n (@insidedir) {
+        print "cd $insidedir[0]";
+        #break;
         #chdir($n) or die "$!";
-    }
+        #}
 }
 
 

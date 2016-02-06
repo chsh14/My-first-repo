@@ -45,11 +45,11 @@ findInWs () {
     INSIDENAME=$3 
     if ! [[ -z "$NAME" &&  -z "$INSIDENAME" ]]; then
         #echo "finding IP \"*$NAME*\" in $PATHTOSEARCH" 
-        cd $(perl findInWS.pl $PATHTOSEARCH $NAME $INSIDENAME)
+        $(perl findInWS.pl $PATHTOSEARCH $NAME $INSIDENAME)
     else
-        echo "I didnt find any argument provided..."
-        echo "Switching to Parent directory $PATHTOSEARCH"
-        cd $(perl findInWS.pl $PATHTOSEARCH )
+        echo "hmm.. So no arguments huh "; sleep 2; echo "Cool..."
+        echo "Switching to Parent directory \"$PATHTOSEARCH\""
+        $(perl findInWS.pl $PATHTOSEARCH )
     fi
 }
 
