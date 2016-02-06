@@ -8,29 +8,27 @@ usage() {
        echo "-----------------------------------------------------"
        ;;
     2)
-       echo "You must provide your new IP's name as a parameter."
-       echo "The IP name is any name that describes your "
-       echo ""
-       echo "Examples:"
-       echo "./create_ip.sh Radio, or ./create_ip.sh AnaDigTop, or  Usb, PathLogic, PowerManagement,"
-       echo "  UTxRxChain, etc"
-       echo ""
+       echo "Following options are available to fly like SUPERMAN : "
+       echo "-ip    : Go to Ip folder Parent \"$VC_WORKSPACE/ip\""
+       echo "-tb    : Go to Top level TB Parent \"$VC_WORKSPACE/product/LodeRunner/common\""
+       echo "-prod  : Go to Product folder \"$VC_WORKSPACE/product/LodeRunner/common\""
+       echo "-proj  : Go to Product folder \"$VC_WORKSPACE/projects\""
+       echo "-method: Go to Methodology folder \"$VC_WORKSPACE/methodology\""
+       echo "-ext   : Go to externals folder \"$VC_WORKSPACE/externals"
+       echo "-h     : Display this SUPERMAN"
        echo "-------------------------------------------------------"
        ;;
     3)
-       echo "After the IP has been added to your WS,"
-       echo "You can either checkin to SVN  at the same time"
-       echo "Or, you can add '-c' switch next time you run the script"
-       echo "IMPORTANT : This will ONLY perform checkin and update XML operation"
-       echo "            Assuming the IP has already been created first time without the switch"
-       echo ""
-       echo "Examples:"
-       echo "./create_ip.sh SpreadLeLong -c, or ./create_ip.sh Usb -c"
-       echo "NOTE : The Order is important and should be exactly like examples"
+       echo "Examples,"
+       echo "\". $0 -ip Temp rtl\",\". $0 -ip Temp\""
+       echo "\". $0 -tb Cheetah tb\" ; \". $0 -tb Cheetah run_ASIC\""
+       echo "\". $0 -ext\""
+       echo "NOTE: there should be a space between the first '.' and the scriptname"
        echo "---------------------------------------------------------------------"
        ;;
   esac
 }
+check_VC_WORKSPACE () { 
 _vc=`eval echo $HOME`
   if [ ! -d "$_vc" -o "$_vc" == "" ]; then
     echo "ERROR - You have not set a correct VC_WORKSPACE"
@@ -38,42 +36,62 @@ _vc=`eval echo $HOME`
     echo ""
     #exit 1
   fi
- unset _vc 
+ unset _vc                 tb
+ }
 
+findInWs () {
+    PATHTOSEARCH=$1
+    NAME=$2
+    INSIDENAME=$3 
+    if ! [[ -z "$NAME" &&  -z "$INSIDENAME" ]]; then
+        #echo "finding IP \"*$NAME*\" in $PATHTOSEARCH" 
+        cd $(perl findInWS.pl $PATHTOSEARCH $NAME $INSIDENAME)
+    else
+        echo "I didnt find any argument provided..."
+        echo "Switching to Parent directory $PATHTOSEARCH"
+        cd $(perl findInWS.pl $PATHTOSEARCH )
+    fi
+}
+
+# Main Routine
+
+check_VC_WORKSPACE
 
 if [[ ${1:0:3} == "-ip" ]]; then
     #go to ip folder
-    if [ "$#" -eq 2 ]; then
-        IPNAME=$2
-        #$PATHTOSEARCH="$VC_WORKSPACE/ip"
-        PATHTOSEARCH=$HOME
-        echo "finding IP $IPNAME in $PATHTOSEARCH"
-        cd $(perl findInWS.pl $PATHTOSEARCH $IPNAME) 
-    elif [ "$#" -eq 3 ]; then 
-        IPNAME=$2 
-        INSIDEIP=$3
-        echo "finding  $IPNAME/$INSIDEIP in $PATHTOSEARCH"
-        cd $(perl findInWS.pl $PATHTOSEARCH $IPNAME $INSIDEIP)
-    else
-        echo "Need atleast one argument"
-        usage 2
-        #exit 1
-    fi
+    #$PATHTOSEARCH="$VC_WORKSPACE/ip"
+    PATHTOSEARCH=$HOME
+    findInWs $PATHTOSEARCH $2 $3
 elif [[ ${1:0:3} == "-tb" ]]; then
     #go to top level tb
-    echo "Bla"
-elif [[ ${1:0:3} == "-prod" ]]; then
+    #$PATHTOSEARCH="$VC_WORKSPACE/products/LodeRunner/common"
+    PATHTOSEARCH=$HOME
+    findInWs $PATHTOSEARCH $2 $3     
+elif [[ ${1:0:4} == "-prod" ]]; then
     #go to product folder
-    echo "Bla" 
-elif [[ ${1:0:3} == "-proj" ]]; then
+    #$PATHTOSEARCH="$VC_WORKSPACE/products/LodeRunner"
+    PATHTOSEARCH=$HOME
+    findInWs $PATHTOSEARCH $2 $3     
+elif [[ ${1:0:4} == "-proj" ]]; then
     #go to projects folder
-    echo "Bla" 
-elif [[ ${1:0:3} == "-method" ]]; then
+    #$PATHTOSEARCH="$VC_WORKSPACE/projects
+    PATHTOSEARCH=$HOME
+    findInWs $PATHTOSEARCH $2 "abc"  
+elif [[ ${1:0:6} == "-method" ]]; then
     #go to methodology folder
-    echo "Bla" 
+    #$PATHTOSEARCH="$VC_WORKSPACE/methodology/Designkit"
+    PATHTOSEARCH=$HOME
+    findInWs $PATHTOSEARCH $2 $3
 elif [[ ${1:0:3} == "-ext" ]]; then
     #go to externals folder
-    echo "Bla" 
+    #$PATHTOSEARCH="$VC_WORKSPACE/externals"
+    PATHTOSEARCH=$HOME
+    findInWs $PATHTOSEARCH $2 $3
+elif [[ ${1:0:1} == "-h" ]]; then
+    # display usage of the script
+    usage 1 
+    usage 2
+    usage 3
 else
     usage 1
     usage 2

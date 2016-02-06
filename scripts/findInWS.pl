@@ -9,22 +9,25 @@ use File::Find::Rule;
 my $pathToSearch = $ARGV[0];
 my $inputDir = $ARGV[1];
 my $insideDir = $ARGV[2]; 
-if (not defined $inputDir ) {
-    die "I need some name to search";
-}
+
 #print "Dir 1: $inputDir, Dir 2  $insideDir"; 
 #print "You want to search $inputDir "; 
-
-my $rule = File::Find::Rule->new;
-$rule->directory;
-$rule->name( "*$inputDir*" );
-$rule->maxdepth( 1 );
-my @dir = $rule->in( $pathToSearch );
-#print "Dir Parent: $dir[0]";
-foreach my $n (@dir) {
-    if (not defined $insideDir ) {
-        print "$n";
+my @dir ;
+if (defined $inputDir ) { 
+    my $rule = File::Find::Rule->new;
+    $rule->directory;
+    $rule->name( "*$inputDir*" );
+    $rule->maxdepth( 1 );
+    @dir = $rule->in( $pathToSearch );
+    #print "Dir Parent: $dir[0]";
+    foreach my $n (@dir) {
+        if (not defined $insideDir ) {
+            print "$n";
+        }
     }
+}
+else {
+    print "$pathToSearch";
 }
 if (defined $insideDir ) { 
     my $rule2 =  File::Find::Rule->new; 
