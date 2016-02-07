@@ -1,0 +1,900 @@
+uname
+uname -ap
+hostname
+domainname 
+df
+df -h
+df -H
+du
+du -h
+du -hd 1
+ps aux
+ps aux | grep chirayushah
+ps aux | grep spotify
+ps aux | grep 
+
+bc
+df -H
+df -H
+cal
+cal Oct 2015
+cal Dec 2015
+cal -7
+cal -y
+cal -y 2016
+cal April -y 2016
+cal -y April 2016
+cal -y Apr2016
+cal -y Apr 2016
+cal Apr 2016
+users
+echo "abc" | sed 's/abc/\tabc/'
+echo "abc" | sed s/abc/\tabc/
+echo "abc" | sed s/abc/	abc/
+echo "abc" | sed 's/abc/tabc/'
+echo "abc" | sed 's/abc/abc/'
+echo "abc" | sed 's/abc/	abc/'
+which sed
+sed --vrsion
+sed --version
+man sed
+say "You Suck""
+say "You Suck"
+say "Suhas this is your gift""
+say "Suhas this is your gift"
+say "Welcome Suhas"; sleep 3; say "This is Chirayu's Macbook"
+sleep 5; say -v Fred "Hello Jenita"
+sleep 5; say -v Fred "Hello Jenita"; sleep 3 "Your name is bit hard to say"; sleep 2 "Can you say it for me"
+sleep 5; say -v Fred "Hello Jenita"; sleep 3; say "Your name is bit hard to say"; sleep 2; say "Can you say it for me"
+sleep 5; say -v Fred "Hello Jenita"; sleep 3; say "Your name is bit hard to say"; sleep 2; say -v Samantha Compact "Can you say it for me"
+sleep 5; say -v Fred "Hello Jenita"; sleep 3; say "Your name is bit hard to say"; sleep 2; say -v "Samantha Compact" "Can you say it for me"
+mdfind -onlyin ~/Applications/ -name "vim"
+mdfind -onlyin ~/Applications/ "vim"
+mdfind -onlyin ~/Applications/ "Mac"
+mdfind  "Mac"
+mdfind  "MacVim"
+mvim 
+chmod a+x demo.sh 
+./demo.sh 
+man read
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+which perl
+perl --version
+which awk
+awk -v
+awk -V
+cd /
+ll
+cd Volumes/
+ll
+cd BOOTCAMP/
+ll
+cd ~
+cd Downloads/
+vim PDremove
+ll
+diskutil list
+df
+vim PDremove.app/
+man open
+cd ..
+ll
+cd Downloads/
+ll
+open demo.sh
+open ruler_30cm.png 
+man oepn
+man open
+cd ..
+cd Pictures/
+ll
+open -E *
+man open
+open -R *
+ll
+cd Rondane\ -hiking/
+ll
+open -a Photos *
+cd Rondane1/
+ll
+open *
+cd ..
+ll
+open -a Preview *
+cd~
+cd ~
+df -g
+df -h
+du -hd 1
+cd .dropbox/
+ll
+cd ..
+cd Dropbox/
+ll
+cd Technical\ Tutorials/
+ll
+cd Lynda.com\ -\ Git\ Essential\ Training/
+ll
+cd 07.\ Undoing\ Changes/
+ll
+open *.mov
+cd ..
+;;
+ll
+cd 14.\ Tools\ and\ Next\ Steps/
+ll
+cd ..
+cd 13.\ Remotes/
+;;
+ll
+cd ..
+cd ~/Documents/git_directory/
+ll
+git status
+mkdir scripts
+cd ~/Downloads/
+ll
+mv demo.sh ~/Documents/git_directory/scripts/
+cd /Documents/git_directory/scripts/
+cd Documents/git_directory/scripts/
+cd ~/Documents/git_directory/scripts/
+ll
+open demo.sh 
+cd ..
+git add *
+git status
+git commit -m "Adding a scripts folder and a file"
+git status
+git log
+git revert df12279340a3530
+ll
+git log
+git revert a1a92fa9c8ede81e
+ll
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/
+ll
+08.\ Ignoring\ Files/
+ll
+cd 08.\ Ignoring\ Files/
+ll
+cd ~
+ll
+cd .vim
+ll
+cd doc/
+ll
+cd ..
+cd ftdetect/
+ll
+cd ..
+cd syntax/
+ll
+cd ..
+cd ..
+man diff
+diff -r .vim/ ~/Documents/git_directory/.vim/
+diff -ry .vim/ ~/Documents/git_directory/.vim/ 
+diff -ry .vim/ ~/Documents/git_directory/.vim/ | less
+man diff
+diff -ry --suppress .vim/ ~/Documents/git_directory/.vim/ | less
+diff -ry --suppress .vim/ ~/Documents/git_directory/.vim/ | less
+cd ~/Documents/git_directory/.vim/
+ll
+cd ..
+git mv --help
+git mv --help
+giv mv -n .vim .vim_work
+git mv -n .vim .vim_work
+git mv .vim .vim_work
+ll
+git status
+git commit -am "Renamed .vim to .vim_work"
+git status
+cp -r ~/.vim/ .
+ll
+mv .vim .vim_mac
+ll
+history
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/
+ll
+cd 09.\ Navigating\ the\ Commit\ Tree/
+ll
+open *.mov 
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/10
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/10.\ Branching/
+ll
+open *.mov
+cd ~/Documents/git_directory/
+git branch
+cat .git/HEAD 
+git branch new_vimrc
+git branch
+ll
+git checkout new_vimrc
+ll
+git status
+git commit -am "vim folders used in mac" 
+git status
+git add .vim_mac
+git status
+git commit -m "vim folders present in my mac"
+git log --oneline
+git checkout master
+git checkout new_vimrc 
+git branch
+git log --oneline
+git checkout master
+ll
+git checkout new_vimrc 
+ll
+git status
+git diff master..new_vimrc 
+git branch --merger
+git branch --merged
+git checkout master
+git branch --merged
+git branch 
+git branch -m new_vimrc new_vim
+git branch
+git checkout new_vim 
+ll
+git checkout master
+git mv .vim_work/ .vim/
+git status
+ll
+git commit -m "Renamed the .vim_work to .vim to merge it later" 
+git checkout new_vim 
+ll
+git mv .vim_mac/ .vim/
+git commit -m "Renamed the .vim_mac to .vim to merge it later" 
+__git_ps1
+cd ~
+ll
+vim .git-completion.bash 
+vim .bash_profile
+vim .bash_profile
+__git_refs
+__git_refs2
+_git_branch
+_git_branch
+_git_branch 1
+_git_branch1
+_git_branch
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/10.\ Branching/
+cd ..
+ll
+11.\ Merging\ Branches/
+ll
+cd 11.\ Merging\ Branches/
+ll
+git mergetool
+cd ~/Documents/git_directory/
+git mergetool
+vimdiff --help
+ll
+git status
+git checkout new_vim 
+ll
+tkdiff .vimrc ,vimrc_work
+ll
+vim .vimrc_work
+tkdiff .vimrc_work .vimrc
+vimdiff .vimrc_work .vimrc
+vim .vimrc_work ~/.vimrc
+mv
+mvim .vimrc_work 
+mvim ~/.vimrc
+svn stat
+git status
+cp .vimrc_work ~/
+cd ~
+ll
+rm .vimrc 
+mv .vimrc_work .vimrc
+lll
+ll
+vim regextmp.txt
+cd -
+git status
+ll
+git rm .vimrc 
+git status
+git mv .vimrc_work .vimrc
+git status
+git commit -m "Renaming .vimrc_work to .vimrc"
+ll
+git status
+vim .vimrc
+git commit -am "Replaced the content of .vimrc with ,vimrc_work"
+ll
+git status
+git clean -f
+git status
+ll
+git checkout master
+ll
+git checkout new_vim 
+git diff checkout/.vim..new_vim/.vim_work
+git diff .vim..new_vim/.vim_work
+git diff -- .vim..new_vim/.vim_work
+git diff master..new_vim .vim_work
+git diff master:.vim new_vim:.vim_work
+ll
+git status
+git checkout master
+ll
+git diff master:.vim new_vim:.vim_work
+ll
+cd .vim
+ll
+cd doc/
+ll
+git checkout new_vim 
+ll
+cd ..
+cd ..
+ll
+cd .vim_work/
+ll
+diff .vim/ .vim_work/
+diff .vim/ .vim_work
+cd ..
+diff .vim/ .vim_work
+git checkout master
+ll
+cd .vim
+ll
+git diff master:.vim/ new_vim:.vim/ | less
+git diff master:.vim/ new_vim:.vim_work/ | less
+git diff master:.vim/ new_vim:.vim_work/ | less
+git diff master:.vim/ new_vim:.vim_work/ | less
+git diff master:.vim/ new_vim:.vim_work/ | less
+git branch --merged
+cd ..
+ll
+git rm .vimrc_work 
+git status
+git commit -m "Removed .vimrc_work"
+git merge new_vim 
+git status
+git branch --merged
+vim .vimrc 
+git log --oneline
+git show a417097
+git diff a417097
+git diff .vimrc
+git diff a417097~1 a417097
+ll
+git branch --help
+git branch -d new_vim 
+git branch
+git remote
+git remote add first_repo https://github.com/chsh14/My-first-repo.git
+git remote
+git remote -v
+cd scripts/
+ll
+cd ..
+git push -u first_repo master
+git pull 
+git pull first_repo 
+git pull first_repo master
+ll
+git push -u first_repo master
+git branch -a
+vim README.md 
+git log --oneline
+git log --oneline first_repo/master 
+git log --oneline master
+,ev
+,sv
+git branch -a
+vim ~/.bash_profile
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/10.\ Branching/
+cd ..
+ll
+cd 07.\ Undoing\ Changes/
+ll
+open 01.\ Undoing\ Changes-Undoing\ working\ directory\ changes.
+open 01.\ Undoing\ Changes-Undoing\ working\ directory\ changes.mov 
+open 02.\ Undoing\ Changes-Unstaging\ files.mov 
+cd ~/.vim/
+ll
+cd ~/Documents/git_directory/
+ll
+diff .vim/ ~/.vim/
+diff -r .vim/ ~/.vim/
+cp .vim/ ~/,vim
+cp .vim/ ~/,vim/
+cp .vim ~/,vim/
+cp .vim ~/,vim
+cp -r .vim ~/,vim
+diff -r .vim/ ~/.vim/
+diff .vim/ ~/.vim/
+cp -ri .vim/ ~/.vim/
+git branch --merger
+git branch --merged
+cp -r .vim/* ~/.vim/*
+diff .vim/ ~/.vim/
+cp -r .vim ~/.vim
+diff .vim/ ~/.vim/
+cd ~/.vim/
+ll
+cd .vim/
+ll
+cd ..
+ll
+rm -rf .vim/
+ll
+cd -
+cd ~/Documents/git_directory/
+cp -rf .vim ~/
+cd ~
+cd .vim/
+ll
+cd com
+cd colors/
+ll
+vim distinguished.vim 
+vim
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/10.\ Branching/
+cd ..
+ll
+cd 11.\ Merging\ Branches/
+ll
+open 04.\ Merging\ Branches-Resolving\ merge\ conflicts.mov  05.\ Merging\ Branches-Exploring\ strategies\ to\ reduce\ merge\ conflicts.mov
+cd ..
+cd 12.\ Stashing\ Changes/
+ll
+open *.mov
+cd ..
+ll
+cd 13.\ Remotes/
+ll
+open *.mov
+which rsync
+cd ..
+cd ..
+cd
+df -h
+du -hd 1
+cd ~
+du -hd 1
+cd Pictures/
+ll
+cd ~/Music/
+cd ~/Downloads/
+du -hd 1
+rm Children\ of\ Men\ \(2006\)\ 720p\ BRRiP\ x264\ AAC\ \[Team\ Nanban\]/
+rm -rf Children\ of\ Men\ \(2006\)\ 720p\ BRRiP\ x264\ AAC\ \[Team\ Nanban\]/
+du -hd 1
+
+du -hd 1
+cd New\ Folder\ With\ Items/
+ll
+du -hd 1
+du -h *
+du -h * | grep -E [0-9]+ 
+du -h * | grep -E [0-9][0-9]+ 
+rm -rf Dolbydigitalplus_cm-11-20150215-Sultan-pyramid.zip  LordNerevar_gapps-mini-4.4.4-005.zip  ViperS_C2_5.3.0.zip.bts  cm-12.1-20151008-UNOFFICIAL-pyramid.zip open_gapps-arm-5.1-nano-20151010.zip 
+du -h * | grep -E [0-9][0-9]+ 
+du -h *  
+du -hd 1
+cd ..
+du -hd 1
+open Mail
+open /Applications/Mail.app/
+open /Applications/Mail.app &
+close /Applications/Mail.app &
+exit /Applications/Mail.app &
+exit /Applications/Mail.app 
+ll
+cd ~/Pictures/
+ll
+cd Rondane\ -hiking/
+ll
+cd Chirtoffer_rondane/
+ll
+open demo.sh
+ll
+open *.JPG
+open *.JPG
+cd ~
+cd Documents/git_directory/
+ll
+vim Makefile
+git status
+git -ac 
+git -ac Makefile -m "Added a new make sanity_check"
+git -c Makefile -m "Added a new make sanity_check"
+man git commit 
+git commit
+git commit -am "adding a Makefile"
+branches
+branch
+git branch
+ll
+git add Makefile
+git status 
+git commit -m "Adding Makefile to the master branch"
+git fetch
+git remotes
+git remote
+git remote --help
+vim Makefile
+ll
+vim Makefile
+vim Makefile
+make sanity_check
+vim Makefile
+echo 4?
+echo $?
+make sanity_check
+make sanity_check
+make sanity_check
+make sanity_check
+make sanity_check
+make sanity_check
+make sanity_check
+make sanity_check
+make sanity_check
+make sanity_check
+git push
+ll
+git status
+git commit -a Makefile 
+git commit -a 
+git commit -a 
+git status
+cd ..
+cd ..
+cd ~
+ll
+ll
+cd Documents/
+ll
+cd ViberDownloads/
+ll
+open *.jpg
+cd PTT/
+ll
+cd ..
+cd ..
+ll
+cd git_directory/
+ll
+cd ..
+cd ..
+cd Downloads/
+ll
+rm the.revenant.\(2015\).eng.1cd.\(6436917\)*
+rm -rf the.revenant.\(2015\).eng.1cd.\(6436917\)*
+ll
+rm -rf The.Revenant.2015.DVDSCR.x264.DD5.1-NoGrp/
+ll
+cd Pyaar\ Ka\ Punchnama\ 2\ 2015\ Hindi\ 720p\ DvDRip\ x264\ AAC\ -\ Hon3y/
+ll
+open -f VLC Pyaar\ Ka\ Punchnama\ 2\ 2015\ Hindi\ 720p\ DvDRip\ x264\ AAC\ -\ Hon3y.
+open -f VLC Pyaar\ Ka\ Punchnama\ 2\ 2015\ Hindi\ 720p\ DvDRip\ x264\ AAC\ -\ Hon3y.mkv 
+man open
+open -F VLC Pyaar\ Ka\ Punchnama\ 2\ 2015\ Hindi\ 720p\ DvDRip\ x264\ AAC\ -\ Hon3y.mkv 
+open Pyaar\ Ka\ Punchnama\ 2\ 2015\ Hindi\ 720p\ DvDRip\ x264\ AAC\ -\ Hon3y.mkv 
+cd ~/Pictures/
+ll
+cd Trondheim/
+ll
+open *.jpg
+cd ~/Pro
+cd ~
+ll
+cd Softwares/
+kk
+ll
+cd ~
+ll
+ll
+cd Documents/
+kk
+ll
+cd Latex\ Stuffs/C.V\ template_latex/
+ll
+cd BioData\ Latex/
+ll
+cd ..
+cd ~
+ll
+ll
+cd Games/
+ll
+cd ..
+cd Dropbox/
+ll
+cd System\ Verilog\ Book/
+ll
+open Spring_extra_Verilog_HDL.PDF 
+cd ~
+cd Pictures/
+ll
+cd Rondane\ -hiking/
+ll
+cd Nordic\ Hike\ 08\ 2015/
+ll
+open *.jpg
+cd Selection\ 130/
+ll
+cd ~
+ll
+ll
+ll
+cd bin/
+vim hello_world.sh 
+rm hello_world.sh 
+ll
+cd ..
+ll
+cd Softwares/
+ll
+cd 1PWD_502/
+ll
+cd ..
+cd ..
+ll
+cd Documents/
+ll
+cd git_directory/
+ll
+vim Makefile 
+git status
+cd ..
+ll
+cd ~/Downloads/
+ll
+cd ..
+ll
+cd Vim\ Extensions/
+ll
+cd 
+l
+ll
+cd nerdtree/
+ll
+cd doc/
+ll
+vim NERD_tree.txt 
+ll
+cd ..
+ll
+cd ..
+ll
+cd .
+cd ..
+cd ~
+ll
+cd Documents/
+kk
+ll'
+ll
+cd ViberDownloads/
+ll
+open *.[jpg]+
+open *.[jp][pn]g
+rm -rf *.png
+ll
+cd ..
+ll
+cd git_directory/
+ll
+vim Makefile
+cd scripts/
+ll
+ll
+cd ..
+cd ..
+ll
+cd ~/
+ll
+cd BitTorrent\ Sync/
+ll
+cd ..
+cd Softwares/
+ll
+cd iPartition\ 3.4.0\ Retailwith\ \[K\]rack/
+ll
+cd ..
+cd ..
+ll
+cd Games/
+ll
+cd ..
+ll
+cd Pictures/
+ll
+cd ..
+ll
+cd ~/Documents/git_directory/
+ll
+cd scripts/
+ll
+vim findInWS.pl
+which perl
+$HOME
+perl findInWS.pl 
+perl findInWS.pl 
+vim findInWS.pl
+perl findInWS.pl 
+perl findInWS.pl Docu
+perl findInWS.pl Docu
+perl findInWS.pl Docu
+perl findInWS.pl Docum
+perl findInWS.pl Docum
+perl findInWS.pl Docum
+perl findInWS.pl Documents
+perl findInWS.pl Documents
+perl findInWS.pl Documents
+perl findInWS.pl Documents
+perl findInWS.pl Documents
+perl findInWS.pl Docum
+perl findInWS.pl Docu
+perl findInWS.pl Doc
+perl findInWS.pl Do
+perl findInWS.pl cum
+perl findInWS.pl wnl
+perl findInWS.pl ll
+dir
+perl findInWS.pl cum
+perl findInWS.pl cum
+perl findInWS.pl cum
+vim ~/.bashrc
+source ~/.bashrc
+ip cum
+perl findInWS.pl cum
+perl findInWS.pl cum
+cd $(perl findInWS.pl cum)
+source ~/.bashrc
+vim perlwrapper.sh
+chmod +x perlwrapper.sh 
+./perlwrapper.sh cum
+. perlwrapper.sh cum
+perl findInWS.pl cum
+. perlwrapper.sh cum
+. perlwrapper.sh wnl
+. perlwrapper.sh wnl
+. perlwrapper.sh
+cd -
+. perlwrapper.sh wnl
+ll
+cd -
+ll
+source ~/.bashrc
+ip cum
+cd -
+ip wnl
+cd -\
+cd -
+vim findInWS.pl
+perl findInWS.pl Docum git_d
+perl findInWS.pl Docum git_d
+perl findInWS.pl Docum git_d
+perl findInWS.pl Docum 
+perl findInWS.pl Docum git_d
+perl findInWS.pl Docum 
+perl findInWS.pl Docum git_d
+perl findInWS.pl Docum git_d
+perl findInWS.pl Docum git_d
+ip docum git_d
+source ~/.bashrc
+ip docum git_d
+cd -
+pwd
+source ~/.bashrc
+ip docum git_d
+ip docum git_d
+cd~/Documents/git_directory/scripts/perlwrapper.sh 
+cd ~/Documents/git_directory/scripts/perlwrapper.sh 
+cd ~/Documents/git_directory/scripts/
+ll
+vim perlwrapper.sh 
+source ~/.bashrc
+ip docum git_d
+source ~/.bashrc
+ip docum git_d
+cd -
+ll
+. perlwrapper.sh docum git_d
+cd -
+vim perlwrapper.sh
+perl findInWS.pl docm git_d
+vim findInWS.pl
+perl findInWS.pl docm git_d
+which perl
+perl findInWS.pl docm git_d
+perl findInWS.pl docm git_d
+ll
+chomd +x findInWS.pl
+chmod +x findInWS.pl
+./findInWS.pl docu
+./findInWS.pl docu git_d
+./findInWS.pl
+./findInWS.pl docu git_d
+./findInWS.pl docu git_d
+./findInWS.pl docu git_d
+./findInWS.pl docu git_d
+./findInWS.pl docu git_d
+vim findInWS.pl
+./findInWS.pl docu git_d
+./findInWS.pl docu git_d
+pwd
+cd ~
+ll
+pwd
+vim .bashrc
+cd -
+source ~/.bashrc
+./findInWS.pl docu git_d
+vim /System/Library/Perl/5.18/File/Find.pm
+ll
+cp findInWS.pl ~/
+cd ~
+ll
+./findInWS.pl docu git_d
+vim findInWS.pl 
+perl findInWS.pl doc
+perl findInWS.pl doc
+perl findInWS.pl doc
+cd -
+vim findInWS.pl
+perl findInWS.pl doc
+perl findInWS.pl doc
+vim findInWS.pl
+perl findInWS.pl doc
+perl findInWS.pl doc
+perl findInWS.pl Doc
+perl findInWS.pl Doc git_d
+perl findInWS.pl Doc git_d
+perl findInWS.pl Doc git_d
+vim perlwrapper.sh
+. perlwrapper.sh Doc git_d
+. perlwrapper.sh Doc git_d
+cd -
+cd ..
+ll
+cd ..
+ll
+cd ..
+cd /Users/chirayushah/Documents/git_directory/scripts
+. perlwrapper.sh Drop Scan
+. perlwrapper.sh Down
+. perlwrapper.sh Down .
+vim ~/.bashrc
+source ~/.bashrc
+ip Docu git_s
+ip Docu git_d
+ip Drop Scan
+ip Docu git_d
+cd scripts/
+ll
+ll
+git push 
+git commit findInWS.pl perlwrapper.sh -a "Scripts to find directory in WS"
+git commit -a "Scripts to find directory in WS"
+git add "Scripts to find directory in WS"
+git add findInWS.pl perlwrapper.sh "Scripts to find directory in WS"
+git status
+git add findInWS.pl perlwrapper.sh
+git commit -m "Scripts to find directory in WS" 
+git push
+vim findInWS.pl
+echo $HOME
+vim perlwrapper.sh
+. perlwrapper.sh
+. perlwrapper.sh
