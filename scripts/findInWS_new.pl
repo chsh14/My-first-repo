@@ -12,12 +12,18 @@ my $inputDir = $ARGV[1];
 my $insideDir = $ARGV[2]; 
 my $levels = $ARGV[3];
 #print "Dir 1: $inputDir, Dir 2  $insideDir"; 
-#print "You want to search $inputDir "; 
+#print "You want to search $inputDir ";
+if ($inputDir =~/(.*)!/ ) {
+    print "you want exact word $1";
+}
 my @dir ;
-if (defined $inputDir ) { 
+if (defined $inputDir ) {
+    my $inputDirUcFirst = ucfirst $inputDir;
+    my $inputDirUC = uc($inputDir);
     my $rule = File::Find::Rule->new;
     $rule->directory;
-    $rule->name( "*$inputDir*" );
+    $rule->name( "*$inputDir*","*$inputDirUcFirst*","*$inputDirUC*"  );
+    $rule->extras({ follow => 1 });
     $rule->maxdepth( 1 );
     @dir = $rule->in( $pathToSearch );
     #print "Dir Parent: $dir[0]";
@@ -33,7 +39,9 @@ else {
 if (defined $insideDir ) { 
     my $rule2 =  File::Find::Rule->new; 
     $rule2->directory; 
-    $rule2->name( "*$insideDir*" );
+    my $insideDirUcFirst = ucfirst $insideDir;
+    my $insideDirUC = uc($insideDir);
+    $rule2->name( "*$insideDir*","*$insideDirUcFirst*", "*$insideDirUC*" );
     if (defined $levels ) { 
         $rule2->maxdepth( "$levels" ); 
     }
