@@ -1,0 +1,595 @@
+cd ~
+ll
+cd Documents/
+which pdf
+open Bosch_Dryer.pdf 
+open Bosch_Dryer.pdf CSPA\ Calculator\ Results.pdf 
+cd Parallels/
+ll
+cd ..
+ll
+cd Latex\ Stuffs/
+ll
+cd C.V\ template_latex/
+ll
+ls
+open Temp_3.tex
+open Temp_3.tex
+ll
+ls -l
+ls
+cd ..
+pwd
+cd ..
+ll
+pwd
+ll | grep '^ext' 
+ll | ggrep -P '^ext' 
+ll | ggrep -P '^e' 
+ll | ggrep -P '^e.*' 
+ll | ggrep -P ^e.* 
+ll | ggrep -P '^e.*' .
+ll | ggrep -P '^e.*' 
+ll | ggrep -ohP '^e.*' 
+ll | ggrep -P "^e.*" 
+ll | ggrep -P "^e*" 
+ll | ggrep -P "^ex*" 
+ll | ggrep -P "^N*" 
+ll | ggrep -P "^No*" 
+ll | ggrep -P "No*" 
+cd Latex\ Stuffs/ 
+pwd
+ll
+cd C.V\ template_latex/
+ll | ggrep -P "2015"
+ll | ggrep -P "[A-Za-z]{3}"
+ll | ggrep -P "[Ja-z]{3}"
+ll | ggrep -P "Jul"
+ll | ggrep -P "Jul.*[^0-9]{4}"
+ll | ggrep -P "Jul.*[0-9]{2}"
+ll | ggrep -P "Jul.*[0-9]{2}:[0-9]{2}"
+ll | ggrep -P "^d.*Jul.*[0-9]{2}:[0-9]{2}"
+ll | ggrep -P "^-.*Jul.*[0-9]{2}:[0-9]{2}"
+ssh edsrv01.nordicsemi.no:0453
+ssh edsrv01.nordicsemi.no: 0453
+ssh edsrv01.nordicsemi.no
+man ssh
+echo $DISPLAY
+cd ~
+l
+ll
+cd /
+ll
+cd dev/
+ll
+cd ..
+ll
+cd ..
+ll
+cd ..
+sudo -s launchctl load -w /System/Library/LaunchDaemons/ftp.plist
+sudo -s launchctl load -w /System/Library/LaunchDaemons/ftp.plist
+ll
+cd ~
+cd Movies/
+zip -er archive.zip Young.And.Tight.XXX.DVDRip.x264-KuKaS/
+man zip
+clear
+cd ..
+cd /
+ll
+cd tmp
+cd 
+pwd
+cd ..
+cd var
+ll
+cd root/
+ll
+du -sh * | grep '[0-9]G'
+
+cd ~
+du -sh * | grep '[0-9]G'
+df -H
+sudo port install tor
+cd Downloads/
+vim Mr.Robot.S01E06.720p.HDTV.x264-IMMERSE.srt 
+echo $PATH
+who
+uname
+uname -ap
+hostname
+domainname 
+df
+df -h
+df -H
+du
+du -h
+du -hd 1
+ps aux
+ps aux | grep chirayushah
+ps aux | grep spotify
+ps aux | grep 
+
+bc
+df -H
+df -H
+cal
+cal Oct 2015
+cal Dec 2015
+cal -7
+cal -y
+cal -y 2016
+cal April -y 2016
+cal -y April 2016
+cal -y Apr2016
+cal -y Apr 2016
+cal Apr 2016
+users
+echo "abc" | sed 's/abc/\tabc/'
+echo "abc" | sed s/abc/\tabc/
+echo "abc" | sed s/abc/	abc/
+echo "abc" | sed 's/abc/tabc/'
+echo "abc" | sed 's/abc/abc/'
+echo "abc" | sed 's/abc/	abc/'
+which sed
+sed --vrsion
+sed --version
+man sed
+say "You Suck""
+say "You Suck"
+say "Suhas this is your gift""
+say "Suhas this is your gift"
+say "Welcome Suhas"; sleep 3; say "This is Chirayu's Macbook"
+sleep 5; say -v Fred "Hello Jenita"
+sleep 5; say -v Fred "Hello Jenita"; sleep 3 "Your name is bit hard to say"; sleep 2 "Can you say it for me"
+sleep 5; say -v Fred "Hello Jenita"; sleep 3; say "Your name is bit hard to say"; sleep 2; say "Can you say it for me"
+sleep 5; say -v Fred "Hello Jenita"; sleep 3; say "Your name is bit hard to say"; sleep 2; say -v Samantha Compact "Can you say it for me"
+sleep 5; say -v Fred "Hello Jenita"; sleep 3; say "Your name is bit hard to say"; sleep 2; say -v "Samantha Compact" "Can you say it for me"
+mdfind -onlyin ~/Applications/ -name "vim"
+mdfind -onlyin ~/Applications/ "vim"
+mdfind -onlyin ~/Applications/ "Mac"
+mdfind  "Mac"
+mdfind  "MacVim"
+mvim 
+chmod a+x demo.sh 
+./demo.sh 
+man read
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+./demo.sh 
+which perl
+perl --version
+which awk
+awk -v
+awk -V
+cd /
+ll
+cd Volumes/
+ll
+cd BOOTCAMP/
+ll
+cd ~
+cd Downloads/
+vim PDremove
+ll
+diskutil list
+df
+vim PDremove.app/
+man open
+cd ..
+ll
+cd Downloads/
+ll
+open demo.sh
+open ruler_30cm.png 
+man oepn
+man open
+cd ..
+cd Pictures/
+ll
+open -E *
+man open
+open -R *
+ll
+cd Rondane\ -hiking/
+ll
+open -a Photos *
+cd Rondane1/
+ll
+open *
+cd ..
+ll
+open -a Preview *
+cd~
+cd ~
+df -g
+df -h
+du -hd 1
+cd .dropbox/
+ll
+cd ..
+cd Dropbox/
+ll
+cd Technical\ Tutorials/
+ll
+cd Lynda.com\ -\ Git\ Essential\ Training/
+ll
+cd 07.\ Undoing\ Changes/
+ll
+open *.mov
+cd ..
+;;
+ll
+cd 14.\ Tools\ and\ Next\ Steps/
+ll
+cd ..
+cd 13.\ Remotes/
+;;
+ll
+cd ..
+cd ~/Documents/git_directory/
+ll
+git status
+mkdir scripts
+cd ~/Downloads/
+ll
+mv demo.sh ~/Documents/git_directory/scripts/
+cd /Documents/git_directory/scripts/
+cd Documents/git_directory/scripts/
+cd ~/Documents/git_directory/scripts/
+ll
+open demo.sh 
+cd ..
+git add *
+git status
+git commit -m "Adding a scripts folder and a file"
+git status
+git log
+git revert df12279340a3530
+ll
+git log
+git revert a1a92fa9c8ede81e
+ll
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/
+ll
+08.\ Ignoring\ Files/
+ll
+cd 08.\ Ignoring\ Files/
+ll
+cd ~
+ll
+cd .vim
+ll
+cd doc/
+ll
+cd ..
+cd ftdetect/
+ll
+cd ..
+cd syntax/
+ll
+cd ..
+cd ..
+man diff
+diff -r .vim/ ~/Documents/git_directory/.vim/
+diff -ry .vim/ ~/Documents/git_directory/.vim/ 
+diff -ry .vim/ ~/Documents/git_directory/.vim/ | less
+man diff
+diff -ry --suppress .vim/ ~/Documents/git_directory/.vim/ | less
+diff -ry --suppress .vim/ ~/Documents/git_directory/.vim/ | less
+cd ~/Documents/git_directory/.vim/
+ll
+cd ..
+git mv --help
+git mv --help
+giv mv -n .vim .vim_work
+git mv -n .vim .vim_work
+git mv .vim .vim_work
+ll
+git status
+git commit -am "Renamed .vim to .vim_work"
+git status
+cp -r ~/.vim/ .
+ll
+mv .vim .vim_mac
+ll
+history
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/
+ll
+cd 09.\ Navigating\ the\ Commit\ Tree/
+ll
+open *.mov 
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/10
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/10.\ Branching/
+ll
+open *.mov
+cd ~/Documents/git_directory/
+git branch
+cat .git/HEAD 
+git branch new_vimrc
+git branch
+ll
+git checkout new_vimrc
+ll
+git status
+git commit -am "vim folders used in mac" 
+git status
+git add .vim_mac
+git status
+git commit -m "vim folders present in my mac"
+git log --oneline
+git checkout master
+git checkout new_vimrc 
+git branch
+git log --oneline
+git checkout master
+ll
+git checkout new_vimrc 
+ll
+git status
+git diff master..new_vimrc 
+git branch --merger
+git branch --merged
+git checkout master
+git branch --merged
+git branch 
+git branch -m new_vimrc new_vim
+git branch
+git checkout new_vim 
+ll
+git checkout master
+git mv .vim_work/ .vim/
+git status
+ll
+git commit -m "Renamed the .vim_work to .vim to merge it later" 
+git checkout new_vim 
+ll
+git mv .vim_mac/ .vim/
+git commit -m "Renamed the .vim_mac to .vim to merge it later" 
+__git_ps1
+cd ~
+ll
+vim .git-completion.bash 
+vim .bash_profile
+vim .bash_profile
+__git_refs
+__git_refs2
+_git_branch
+_git_branch
+_git_branch 1
+_git_branch1
+_git_branch
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/10.\ Branching/
+cd ..
+ll
+11.\ Merging\ Branches/
+ll
+cd 11.\ Merging\ Branches/
+ll
+git mergetool
+cd ~/Documents/git_directory/
+git mergetool
+vimdiff --help
+ll
+git status
+git checkout new_vim 
+ll
+tkdiff .vimrc ,vimrc_work
+ll
+vim .vimrc_work
+tkdiff .vimrc_work .vimrc
+vimdiff .vimrc_work .vimrc
+vim .vimrc_work ~/.vimrc
+mv
+mvim .vimrc_work 
+mvim ~/.vimrc
+svn stat
+git status
+cp .vimrc_work ~/
+cd ~
+ll
+rm .vimrc 
+mv .vimrc_work .vimrc
+lll
+ll
+vim regextmp.txt
+cd -
+git status
+ll
+git rm .vimrc 
+git status
+git mv .vimrc_work .vimrc
+git status
+git commit -m "Renaming .vimrc_work to .vimrc"
+ll
+git status
+vim .vimrc
+git commit -am "Replaced the content of .vimrc with ,vimrc_work"
+ll
+git status
+git clean -f
+git status
+ll
+git checkout master
+ll
+git checkout new_vim 
+git diff checkout/.vim..new_vim/.vim_work
+git diff .vim..new_vim/.vim_work
+git diff -- .vim..new_vim/.vim_work
+git diff master..new_vim .vim_work
+git diff master:.vim new_vim:.vim_work
+ll
+git status
+git checkout master
+ll
+git diff master:.vim new_vim:.vim_work
+ll
+cd .vim
+ll
+cd doc/
+ll
+git checkout new_vim 
+ll
+cd ..
+cd ..
+ll
+cd .vim_work/
+ll
+diff .vim/ .vim_work/
+diff .vim/ .vim_work
+cd ..
+diff .vim/ .vim_work
+git checkout master
+ll
+cd .vim
+ll
+git diff master:.vim/ new_vim:.vim/ | less
+git diff master:.vim/ new_vim:.vim_work/ | less
+git diff master:.vim/ new_vim:.vim_work/ | less
+git diff master:.vim/ new_vim:.vim_work/ | less
+git diff master:.vim/ new_vim:.vim_work/ | less
+git branch --merged
+cd ..
+ll
+git rm .vimrc_work 
+git status
+git commit -m "Removed .vimrc_work"
+git merge new_vim 
+git status
+git branch --merged
+vim .vimrc 
+git log --oneline
+git show a417097
+git diff a417097
+git diff .vimrc
+git diff a417097~1 a417097
+ll
+git branch --help
+git branch -d new_vim 
+git branch
+git remote
+git remote add first_repo https://github.com/chsh14/My-first-repo.git
+git remote
+git remote -v
+cd scripts/
+ll
+cd ..
+git push -u first_repo master
+git pull 
+git pull first_repo 
+git pull first_repo master
+ll
+git push -u first_repo master
+git branch -a
+vim README.md 
+git log --oneline
+git log --oneline first_repo/master 
+git log --oneline master
+,ev
+,sv
+git branch -a
+vim ~/.bash_profile
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/10.\ Branching/
+cd ..
+ll
+cd 07.\ Undoing\ Changes/
+ll
+open 01.\ Undoing\ Changes-Undoing\ working\ directory\ changes.
+open 01.\ Undoing\ Changes-Undoing\ working\ directory\ changes.mov 
+open 02.\ Undoing\ Changes-Unstaging\ files.mov 
+cd ~/.vim/
+ll
+cd ~/Documents/git_directory/
+ll
+diff .vim/ ~/.vim/
+diff -r .vim/ ~/.vim/
+cp .vim/ ~/,vim
+cp .vim/ ~/,vim/
+cp .vim ~/,vim/
+cp .vim ~/,vim
+cp -r .vim ~/,vim
+diff -r .vim/ ~/.vim/
+diff .vim/ ~/.vim/
+cp -ri .vim/ ~/.vim/
+git branch --merger
+git branch --merged
+cp -r .vim/* ~/.vim/*
+diff .vim/ ~/.vim/
+cp -r .vim ~/.vim
+diff .vim/ ~/.vim/
+cd ~/.vim/
+ll
+cd .vim/
+ll
+cd ..
+ll
+rm -rf .vim/
+ll
+cd -
+cd ~/Documents/git_directory/
+cp -rf .vim ~/
+cd ~
+cd .vim/
+ll
+cd com
+cd colors/
+ll
+vim distinguished.vim 
+vim
+cd ~/Dropbox/Technical\ Tutorials/Lynda.com\ -\ Git\ Essential\ Training/10.\ Branching/
+cd ..
+ll
+cd 11.\ Merging\ Branches/
+ll
+open 04.\ Merging\ Branches-Resolving\ merge\ conflicts.mov  05.\ Merging\ Branches-Exploring\ strategies\ to\ reduce\ merge\ conflicts.mov
+cd ..
+cd 12.\ Stashing\ Changes/
+ll
+open *.mov
+cd ..
+ll
+cd 13.\ Remotes/
+ll
+open *.mov
+which rsync
+df -h
+du -hd 1
+cd ~
+du -hd 1
+cd Pictures/
+ll
+cd ~/Music/
+cd ~/Downloads/
+du -hd 1
+rm Children\ of\ Men\ \(2006\)\ 720p\ BRRiP\ x264\ AAC\ \[Team\ Nanban\]/
+rm -rf Children\ of\ Men\ \(2006\)\ 720p\ BRRiP\ x264\ AAC\ \[Team\ Nanban\]/
+du -hd 1
+
+du -hd 1
+cd New\ Folder\ With\ Items/
+ll
+du -hd 1
+du -h *
+du -h * | grep -E [0-9]+ 
+du -h * | grep -E [0-9][0-9]+ 
+rm -rf Dolbydigitalplus_cm-11-20150215-Sultan-pyramid.zip  LordNerevar_gapps-mini-4.4.4-005.zip  ViperS_C2_5.3.0.zip.bts  cm-12.1-20151008-UNOFFICIAL-pyramid.zip open_gapps-arm-5.1-nano-20151010.zip 
+du -h * | grep -E [0-9][0-9]+ 
+du -h *  
+du -hd 1
+cd ..
+du -hd 1
+open Mail
+open /Applications/Mail.app/
+open /Applications/Mail.app &
+close /Applications/Mail.app &
+exit /Applications/Mail.app &
+exit /Applications/Mail.app 
