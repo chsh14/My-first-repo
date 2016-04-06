@@ -50,11 +50,11 @@ findInWs () {
     LEVELS=$4
     if ! [[ -z "$NAME" &&  -z "$INSIDENAME" ]]; then
         #echo "finding IP \"*$NAME*\" in $PATHTOSEARCH with LEVELS=$LEVELS" 
-        perl ~/scripts/findInWS.pl $PATHTOSEARCH $NAME $INSIDENAME $LEVELS
+        perl ~/My-first-repo/scripts/findInWS.pl $PATHTOSEARCH $NAME $INSIDENAME $LEVELS
     else
         #echo "hmm.. So no arguments huh "; sleep 2; echo "Cool..."
         #echo "Switching to Parent directory \"$PATHTOSEARCH\""
-        perl ~/scripts/findInWS.pl $PATHTOSEARCH
+        perl ~/My-first-repo/scripts/findInWS.pl $PATHTOSEARCH
     fi
 }
 
