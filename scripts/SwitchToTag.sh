@@ -34,6 +34,22 @@ SwitchToTag_custom() {
 
 }
 
+SwitchToTag_any() {
+    echo "Switching $1 to $2 Tag"
+    cd $VC_WORKSPACE/
+    if [ $? -gt 0 ]; then
+       echo "ERROR - Couldnt navigate to $VC_WORKSAPCE/ip directory"
+       exit 1
+    fi  
+    svn switch http://svn.nordicsemi.no/seesaw/ip/$1/tags/$2 $1
+
+}
+
+
+
+
+
+
 
 if [[ $# -eq 2  ]]; then
     TAGNAME=$2
