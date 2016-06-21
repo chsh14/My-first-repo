@@ -93,6 +93,10 @@ elif [[ ${1:0:4} == "-ext" ]]; then
     PATHTOSEARCH="$VC_WORKSPACE/externals/data"
     #PATHTOSEARCH=$HOME
     findInWs $PATHTOSEARCH $2 $3 $4
+elif [[ ${1:0:6} == "-deliv" ]]; then
+	#go to delivery folder 
+	PATHTOSEARCH="/pro/$2/delivery/sig/"
+	findInWs $PATHTOSEARCH $3
 elif [[ ${1:0:2} == "-h" ]]; then
     # display usage of the script
     usage 1 
