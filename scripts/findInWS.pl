@@ -17,14 +17,25 @@ my @dir ;
 if (defined $inputDir ) { 
     my $rule = File::Find::Rule->new;
     $rule->directory;
-    $rule->name( "*$inputDir*" );
-    $rule->maxdepth( 1 );
-    @dir = $rule->in( $pathToSearch );
-    #print "Dir Parent: $dir[0]";
-    #foreach my $n (@dir) {
-        if (not defined $insideDir ) {
-            print "$dir[0]";
-        }
+	$rule->extras({ follow => 1 });
+	my $lastword = substr $inputDir,-1;
+	#print $lastword;
+	if ($lastword eq "/" ) { #look for '/' in the end of the string to make exact search
+		$inputDir =~ s/\///g;
+		#print "This  $inputDir\n";
+		$rule->name("*$inputDir");
+	}
+	else {
+		$rule->name( "*$inputDir*" );
+	}
+	$rule->maxdepth( 1 );
+	@dir = $rule->in( $pathToSearch );
+	#print "Dir Parent: $dir[0]";
+	#foreach my $n (@dir) {
+	if (not defined $insideDir ) {
+		print "$dir[0]";
+	}
+	
         #}
 }
 else {
@@ -32,7 +43,8 @@ else {
 }
 if (defined $insideDir ) { 
     my $rule2 =  File::Find::Rule->new; 
-    $rule2->directory; 
+    $rule2->directory; 	
+	$rule2->extras({ follow => 1 });
     $rule2->name( "*$insideDir*" );
     if (defined $levels ) { 
         $rule2->maxdepth( "$levels" ); 
