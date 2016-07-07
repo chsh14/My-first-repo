@@ -1,0 +1,5 @@
+# Ignore .sh~,.un~
+*.[a-z]*~
+#Ignore anyfile ending with ~
+*~
+

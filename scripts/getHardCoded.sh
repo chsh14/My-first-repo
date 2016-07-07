@@ -134,16 +134,10 @@ fi
     find . \( -type f -name 'common_setup.tcl' -and -path '*/syn/*' \) -exec grep -rH '/n/' {} \; -print | grep -v "\.svn" | tee $VC_WORKSPACE/Syn_Complete.rpt
     if [ -s $VC_WORKSPACE/Syn_Complete.rpt ]; then
         while IFS='' read -r p || [[ -n "$p" ]]; do
-    #Format1=`echo "$p" | grep -e ".*:\s*\/\/.*"`
-    #echo "$Format1"
-    #Format2=`echo "$Format1" | grep -e ".*YodaMP.*"`
-    #echo "$Format2"
-    #Format3=`echo "$Format2" | grep -e ".*QuarkFP1.*"`
-    #echo "$Format3"
-        if ! [[ "$p" =~ ".*:\s*\#+.*" || "$p" =~ .*Yoda.* || "$p" =~ .*QuarkFP1.* ]]; then
-            echo "Formating : $p"        
-            echo "$p" >> $VC_WORKSPACE/reports/Syn_Complete_formated.rpt 
-        fi  
+            if ! [[ "$p" =~ ".*:\s*\#+.*" || "$p" =~ .*Yoda.* || "$p" =~ .*QuarkFP1.* ]]; then
+                echo "Formating : $p"        
+                echo "$p" >> $VC_WORKSPACE/reports/Syn_Complete_formated.rpt 
+            fi  
         done <$VC_WORKSPACE/Syn_Complete.rpt
     else
         printCustomize "No Paths found for LowPriority... Yupeee"
