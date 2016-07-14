@@ -1,0 +1,2061 @@
+Digital IP Design Description
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+
+digip_153  
+
+
+2.4
+
+
+2016-06-23
+
+
+
+Åsmund Holen, Jakub Kalis, Omer Qadir,
+Chirayu Shah, Kasyab Subramaniyan
+
+
+
+
+Confidential
+
+
+
+
+
+CompBox
+-
+Comparator Box
+
+CompBox Design Description
+
+
+Purpose:
+This document contains the detailed description of the design and verification of the IP CompBox. 
+
+
+
+Revision History Control
+                                   Rev. No.
+Rev. Date
+Document Status
+Responsible
+                                     1.0A
+                                  2012-09-24
+Ready for Mr1
+ASHO
+                                      1.0
+                                  2012.10.03
+Pre Mr1 actions completed
+ASHO
+                                     1.1A
+                                  2012.10.16
+Implementation and Verification added
+ASHO
+                                      1.1
+                                  2012.10.24
+Mr2 Completed
+ASHO
+                                      1.2
+                                  2012.12.10
+Added DFT chapter
+JAKA
+                                     2.0A
+                                  2014.02.12
+Updating for 55nm WU_CMP and also adding GP_CMP
+OMQA
+                                     2.01A
+                                  2014.02.21
+Correcting typos/errors in document identified as part of review before MR1/MR2
+OMQA
+                                     2.02A
+                                  2014.02.24
+Correcting further typos/errors in document identified as part of review before MR1/MR2
+OMQA
+                                     2.02
+                                  2014.02.27
+Post MR1/MR2 document that is signed
+OMQA
+                                      2.1
+                                  2014.03.18
+Post MR1/MR2 actions from JIRA IC-3204
+OMQA
+                                      2.2
+                                  2014.07.01
+After correcting the 2us switching issue (IC-3596)
+OMQA
+                                      2.3
+                                  2014.12.09
+Minor updates to documentation only. No updates to function/RTL
+OMQA
+                                     2.4A
+                                  2016-04-25
+Changes after moving CompBox to PD_PERIPHERALS (IC-6773)
+Updated the startup value for LPCOMP (IC-12629)
+CHSH
+
+                                     2.4B
+                                   2016-0512
+MR2 actions partially completed (remaining actions in IC-14147)
+CHSH
+                                      2.4
+                                  2016-06-23
+Remaining Actions in IC-14147
+CHSH
+
+Changes since Last Revision
+                                  Change No.
+Description
+                                       1
+Updated feature list
+                                       
+
+                                       
+
+
+Source Files' Location
+                                  Repository
+Folder
+http://svn.nordicsemi.no/seesaw
+ip/CompBox/tags/3.16_2016.04.26/
+
+References
+Ref. No.
+Doc. No.
+                                     Rev.
+Title
+                                       1
+                                    DFG_006
+                                      6.9
+DDVC
+                                       3
+                                   4377_355
+                                      2.0
+Instantiating PcgcSlave. Power & Clock Gating in Princess
+                                       4
+                                   digip_034
+                                      1.5
+Conventions for Modules Connected to the PAR Bus
+                                       5
+                                   digip_066
+                                      1.1
+CaptureAndRequest DD
+                                       6
+                                   4377_629
+                                      1.1
+WU_CMP_4377_R1 layout design description
+                                       7
+                                  1154327_003
+                                      2.1
+cgen v2.1 (DFTpro) User Guide
+                                       8
+       Bamboo [HYPERLINK: http://projecttools.nordicsemi.no/bamboo/browse/GRAVITON-IPS-54/artifact/shared/PDF/graviton.pdf]
+                                       
+Graviton Series User Specification
+                                       9
+                                   4378_697
+                                      3.0
+WU_CMP_TSMC55N Design Description
+                                      10
+                                   4378_769
+                                      3.0
+GP_CMP_TSMC55N Design Description
+                                      11
+                                   IC-14605
+                                       
+Code Coverage Actions
+
+Notation
+ X or x is used in names as wildcard for one or more alphanumeric characters.
+ GP: General Purpose
+ WU: Wake Up
+ GP_CMP : General Purpose Comparator
+ WU_CMP: Wake Up Comparator
+
+Table of Contents
+1.	Features	2
+2.	Specification	2
+2.1.	External Interface	2
+2.1.1.	Generic Interface	2
+2.1.2.	Signal Interface	2
+2.1.3.	Register Interface	2
+2.2.	Functional Description	2
+2.2.1.	CompBox	2
+2.2.2.	CompBoxDig	2
+3.	High Level Representation	2
+4.	Design Implementation	2
+4.1.	General Description	2
+4.1.1.	CompBoxDigPar	2
+4.1.2.	CompBoxDigWakeUp	2
+4.1.3.	CompBoxDigReqControl	2
+4.1.4.	CompBoxDigCore	2
+4.1.5.	Design Files	2
+4.1.6.	Clock	2
+4.1.7.	Reset	2
+4.1.8.	Critical Integration and Reuse Issues	2
+5.	Verification	2
+5.1.	Verification Cases	2
+5.1.1.	Assertion Coverage	2
+5.1.2.	Code Coverage	2
+5.1.3.	Verification Files	2
+5.2.	Testbench Description	2
+6.	Production Test Issues and DFT	2
+7.	Physical implementation	2
+7.1.	Technology	2
+7.2.	Logic Synthesis	2
+7.2.1.	Static Timing Verification	2
+7.2.2.	Area	2
+8.	Tool Overview	2
+
+
+
+ Features
+ Implements a low-power (wake-up) comparator and/or a general purpose comparator (for 55nm only)
+ Wakeup from system off on posedge, negedge or both edges of comparison
+ Single-ended or differential comparison
+ In system on, generates events when input voltage crosses reference threshold
+ Can generate interrupts based on events
+ Only allows one comparator to operate at a time
+ Implements hysteresis mode for both comparators (for 55nm comparators)
+ Uses slow clock for start-up counters to reduce power
+   
+ Specification
+   External Interface 
+ Generic Interface 
+Table 1: Generic interface. 
+Generic Variable
+Type
+Legal Range
+Default Value
+Description
+
+Addresses
+
+Tasks
+ID_COMP_BOX_TASK_START
+
+Int
+                                                                          0x000
+                                                                             to
+                                                                          0x07C
+                                                                          0x000
+PAR address to compBoxTaskStart
+ID_COMP_BOX_ TASK_STOP
+
+Int
+                                                                          0x000
+                                                                             to
+                                                                          0x07C
+                                                                          0x004
+PAR address to compBoxTaskStop
+ID_COMP_BOX_ TASK_SAMPLE
+Int
+                                                                          0x000
+                                                                             to
+                                                                          0x07C
+                                                                          0x008
+PAR address to compBoxTaskSample
+
+Events
+ID_COMP_BOX_EVENT_READY
+Int
+                                                                          0x100
+                                                                             to
+                                                                          0x17C
+                                                                          0x100
+PAR address to compBoxEventReady
+ID_COMP_BOX_EVENT_DOWN
+
+Int
+                                                                          0x100
+                                                                             to
+                                                                          0x17C
+                                                                          0x104
+PAR address to compBoxEventDown
+ID_COMP_BOX_EVENT_UP
+
+Int
+                                                                          0x100
+                                                                             to
+                                                                          0x17C
+                                                                          0x108
+PAR address to compBoxEventUp
+ID_COMP_BOX_EVENT_CROSS
+
+Int
+                                                                          0x100
+                                                                             to
+                                                                          0x17C
+                                                                          0x10C
+PAR address to compBoxEventCross
+
+Short-Cuts
+ID_COMP_BOX_SHORT
+Int
+                                                                          0x200
+                                                                               
+                                                                          0x200
+PAR address to compBoxEventShortcut
+
+Interrupt Enable
+ID_COMP_BOX_IRQ_ENABLE
+Int
+                                                                          0x300
+                                                                          0x300
+PAR address to compBoxIrqEnable
+ID_COMP_BOX_SET_IRQ_ENABLE
+
+Int
+                                                                          0x304
+                                                                               
+                                                                          0x304
+PAR address to compBoxSetIrqEnable
+ID_COMP_BOX_CLEAR_IRQ_ENABLE
+
+Int
+                                                                          0x308
+                                                                               
+                                                                          0x308
+PAR address to compBoxClearIrqEnable
+
+readRegs
+ID_COMP_BOX_RESULT
+Int
+                                                                          0x400
+                                                                             To
+                                                                          0x4FF
+                                                                          0x400
+PAR address to compBoxResult 
+ID_COMP_BOX_BGREADY
+Int
+                                                                          0x400
+                                                                             To
+                                                                          0x4FF
+                                                                          0x404
+PAR address to 
+compBoxBgReady
+
+Configuration
+ID_COMP_BOX_ENABLE
+
+Int
+                                                                          0x500
+                                                                               
+                                                                          0x500
+PAR address to compBoxEnable
+ID_COMP_BOX_PSEL
+Int
+                                                                          0x504
+                                                                             to
+                                                                          0x5FC
+                                                                          0x504
+PAR address to compBoxPsel
+ID_COMP_BOX_REFSEL
+Int
+                                                                          0x504
+                                                                             to
+                                                                          0x5FC
+                                                                          0x508
+PAR address to compBoxRefSel
+ID_COMP_BOX_EXTREFSEL
+Int
+                                                                          0x504
+                                                                             to
+                                                                          0x5FC
+                                                                          0x50C
+PAR address to compBoxExtRefSel
+ID_COMP_BOX_ANADETECT
+Int
+                                                                          0x504
+                                                                             to
+                                                                          0x5FC
+                                                                          0x520
+PAR address to compBoxAnaDetect
+ID_COMP_BOX_TH
+Int
+                                                                          0x504
+                                                                             to
+                                                                          0x5FC
+                                                                          0x530
+PAR address to compBoxTh
+ID_COMP_BOX_MODE
+Int
+                                                                          0x504
+                                                                             to
+                                                                          0x5FC
+                                                                          0x534
+PAR address to compBoxMode
+ID_COMP_BOX_HYST
+Int
+                                                                          0x504
+                                                                             to
+                                                                          0x5FC
+                                                                          0x538
+PAR address to compBoxHyst
+ID_COMP_BOX_ISOURCE
+Int
+                                                                          0x504
+                                                                             to
+                                                                          0x5FC
+                                                                          0x53C
+PAR address to compBoxIsource
+ID_COMP_BOX_REFTRIM
+Int
+                                                                          0x504
+                                                                             to
+                                                                          0x5FC
+                                                                          0x540
+PAR address to compBoxRefTrim
+
+Reset values
+RV_X_EVENT_X
+
+Int
+                                                                         0 to 1
+                                                                              0
+Reset value for xEventX
+RV_X_TASK_X
+
+Int
+                                                                         0 to 1
+                                                                              0
+Reset value for xTaskX
+RV_COMP_BOX_SHORT
+
+Int
+                                                                   `0 to '1
+                                                                              0
+Reset value for compBoxShortcut
+RV_ COMP_BOX_ENABLE
+
+Int
+                                                                            0x0
+                                                                             to
+                                                                            0x3
+                                                                            0x0
+Reset value for compBoxEnable
+RV_ COMP_BOX_RESULT
+
+Int
+                                                                         0 to 1
+                                                                               
+                                                                              0
+Reset value for compBoxResult
+RV_ COMP_BOX_PSEL
+Int
+                                                                   `0 to '1
+                                                                              0
+Reset value for   compBoxPsel 
+RV_ COMP_BOX_REFSEL
+Int
+                                                                   `0 to '1
+                                                                              0
+Reset value for compBoxRefSel
+RV_ COMP_BOX_EXTREFSEL
+Int
+                                                                   `0 to '1
+                                                                              0
+Reset value for compBoxExtRefSel
+RV_ COMP_BOX_ANADETECT
+Int
+                                                                   `0 to '1
+                                                                              0
+Reset value for compBoxAnaDetect
+RV_ COMP_BOX_TH
+Int
+                                                                   `0 to '1
+                                                                            0x0
+Reset value for compBoxTh
+RV_ COMP_BOX_MODE
+Int
+                                                                   `0 to '1
+                                                                              1
+Reset value for compBoxMode
+RV_ COMP_BOX_HYST
+Int
+                                                                   `0 to '1
+                                                                              0
+Reset value for compBoxHyst
+RV_ COMP_BOX_ISOURCE
+Int
+                                                                   `0 to '1
+                                                                              0
+Reset value for compBoxIsource
+RV_ COMP_BOX_REFTRIM
+Int
+                                                                   `0 to '1
+                                                                           0x10
+Reset value for compBoxRefTrim
+RV_ COMP_BOX_BGREADY
+Int
+                                                                   `0 to '1
+                                                                              0
+Reset value for compBoxBgReady
+
+Miscellaneous
+INCLUDE_WAKEUP_COMPARATOR
+Int
+                                                                         0 to 1
+                                                                              1
+Defines if the Wakeup Comparator shall be included in a system, or if it's left out.
+0: Wakeup Comparator is left out. Outputs are hard-wired to in-active state.
+1: Wakeup Comparator is included. Normal functionality.
+INCLUDE_GP_COMPARATOR
+Int
+                                                                         0 to 1
+                                                                              1
+Defines if the General Purpose Comparator shall be included in a system, or if it's left out.
+0: General Purpose Comparator is left out. Outputs are hard-wired to in-active state.
+1: General Purpose Comparator is included. Normal functionality.
+ 
+WAKEUP_COMPARATOR_STARTUP_TIME_180
+Int
+                                                                           0 ++
+                                                                              4
+Time in us to wait for 180nm WU_CMP analogue block to become ready
+WAKEUP_COMPARATOR_STARTUP_TIME_55
+Int
+                                                                           0 ++
+                                                                            140
+Time in us to wait for 55nm WU_CMP analogue block to become ready
+GP_COMPARATOR_STARTUP_TIME_55
+Int
+                                                                           0 ++
+                                                                              3
+Time in us to wait for 55nm GP_CMP analogue block to become ready
+IBPP_SIZE
+Int
+                                                                           0 ++
+                                                                            N/A
+Determines width of input ibpp10n. The width is 5 for 180nm and 1 for 55nm
+This parameter is determined based on the value of the PC_TECH parameter. In general, it should not be over-ridden at instantiation.
+PAR_AW
+
+Int
+                                                                        1 to 32
+                                                                             12
+Number of bits in parAddr.
+PAR_DW
+
+Int
+                                                                        1 to 32
+                                                                             32
+Number of bits in parDx.
+PAR_WW
+
+Int
+                                                                         1 to 4
+                                                                           PAR_
+                                                                           DW/8
+Number of bits in parWe.
+SELECT_EVENT_TRIGGERS
+Int
+                                                                         0 to 1
+                                                                              0
+Defines if events can be triggered via PAR Bus. 
+0: Events cannot be triggered via PAR Bus.
+1: Events can be triggered via PAR Bus.
+SELECT_TASK_REGISTERS
+Int
+                                                                         0 to 1
+                                                                              0
+Defines if task PARs with read/write functionality are included.
+0: Task PARs are not included.
+1: Task PARs are included.
+
+   Signal Interface 
+Table 2: Signal interface.
+Signal 
+In/
+Out
+Sync
+Description
+
+PAR Bus:
+Nordic Semiconductor Standard Interface. 
+parAddr [PAR_AW-1:0]
+In
+pcgcBus.ck[0]
+PAR address.
+parDo [PAR_DW-1:0]
+In
+pcgcBus.ck[0]
+PAR data from PAR bus master.
+parRe
+In
+pcgcBus.ck[0]
+PAR read enable.
+parWe[PAR_WW-1:0]
+In
+pcgcBus.ck[0]
+PAR write enable.
+parDi [PAR_DW-1:0]
+Out
+pcgcBus.ck[0]
+PAR return data.
+
+Miscellaneous:
+
+
+
+anaWakeup_a
+Out
+async
+WakeupSignal used in system off
+vinP
+In
+async
+Input voltage (Analogue signal)
+vinN
+In
+async
+Reference voltage (Analogue signal)
+gpCompVref
+In
+async
+Reference voltage for GP_CMP (Analogue signal)
+ibpp10n [IBPP_SIZE-1:0]
+In
+async
+Bias current (Analogue signal)
+compExtRefSel[1:0]
+Out
+pcgcBus.ck[0]
+Selects the external reference source
+compPSel[7:0]
+Out
+pcgcBus.ck[0]
+Selects the pad that provides the input voltage
+taskStart
+In
+pcgcBus.ck[0]
+Task signal to start the CompBox.
+taskStop
+In
+pcgcBus.ck[0]
+Task signal to stop the CompBox.
+taskSample
+In
+pcgcBus.ck[0]
+Task signal to sample the COMP result in compBox
+eventReady
+Out
+pcgcBus.ck[1]
+Event signal when the Comparator is ready after start task is given.
+eventDown
+Out
+pcgcBus.ck[1]
+Event signal when the input voltage has a transition from a higher voltage than the reference to a lower voltage
+eventUp
+Out
+pcgcBus.ck[1]
+Event signal when the input voltage has a transition from a lower voltage than the reference to a higher voltage
+eventCross
+Out
+pcgcBus.ck[1]
+Event signal when the input voltage crosses the reference voltage. 
+scanTest
+In
+pcgcBus.ck[1]
+Scan test signal
+arstHW
+In
+async
+Reset signal used during the wake-up process when power/clock is down
+infoPageRead
+In
+async
+This goes high at start-up. All registers are maintained at system-off. Retention registers are maintained during system-off but reset when entering system-on.
+irqCompBox
+Out
+pcgcBus.ck[0]
+IRQ generated from the events
+
+PCGC:
+
+
+
+pcgcBus
+-
+-
+SystemVerilog interface, type in_Pcgc.mo_slave
+Test bus signals
+
+
+
+testBusIn[31:0]
+In
+async
+Global test interface bus
+testBusOut[31:0]
+Out
+async
+To external test logic
+ Test signals 
+test
+In
+async
+Global test signal
+tdid
+In
+async
+Global test setup signal
+tmsd
+In
+async
+Global test setup signal
+tckd
+In
+-
+Global test setup signal
+atb[1:0]
+Inout
+async
+Analogue Test Bus for the GP_CMP
+
+   Register Interface 
+Table 3: Register interface.
+Address (Hex)
+Name               
+                                      Bit
+                                     Reset
+                                     Value
+                                     Type
+Description
+0x000
+compBoxTaskStart
+                                       0
+                                      0x0
+                                       W
+                                     (R/W)
+CompBox  Task Trigger.
+
+Same function as taskStart.
+
+Readable if the parameter SELECT_TASK_REGISTERS is 1.
+Cleared when the MCU writes a `0' to it.
+0x004
+compBoxTaskStop
+                                       0
+                                      0x0
+                                       W
+                                     (R/W)
+CompBox Task Trigger.
+
+Same function as taskStop.
+
+Readable if the parameter SELECT_TASK_REGISTERS is 1.
+Cleared when the MCU writes a `0' to it.
+0x008
+compBoxTaskSample
+                                       0
+                                      0x0
+                                       W
+                                     (R/W)
+CompBox Task Trigger.
+
+Same function as taskSample.
+
+Readable if the parameter SELECT_TASK_REGISTERS is 1.
+Cleared when the MCU writes a `0' to it.
+0x100
+compBoxEventReady
+                                       0
+                                      0x0
+                                       R
+                                     (R/W)
+CompBox Event register.
+
+Set when eventReady is `high', or when the MCU writes `1' to this address and SELECT_EVENT_TRIGGERS is 1.
+
+Cleared when the MCU writes a `0' to it.
+0x104
+compBoxEventDown
+                                       0
+                                      0x0
+                                       R
+                                     (R/W)
+CompBox Event register.
+
+Set when eventDown is `high', or when the MCU writes `1' to this address and SELECT_EVENT_TRIGGERS is 1.
+
+Cleared when the MCU writes a `0' to it.
+0x108
+compBoxEventUp
+                                       0
+                                      0x0
+                                       R
+                                     (R/W)
+CompBox Event register.
+
+Set when eventUp is `high', or when the MCU writes `1' to this address and SELECT_EVENT_TRIGGERS is 1.
+
+Cleared when the MCU writes a `0' to it.
+0x10C
+compBoxEventCross
+                                       0
+                                      0x0
+                                       R
+                                     (R/W)
+CompBox Event register.
+
+Set when eventCross is `high', or when the MCU writes `1' to this address and SELECT_EVENT_TRIGGERS is 1.
+
+Cleared when the MCU writes a `0' to it.
+0x200
+compBoxShortcut
+                                      4:0
+                                      0x0
+                                      R/W
+Shortcut register 
+
+
+ shortEventCrossTaskStop
+                                       4
+                                      0x0
+                                      R/W
+1 : Short-cut between eventCross and taskStop enabled.
+
+0 : Short-cut between eventCross and taskStop disabled.
+
+ shortEventUpTaskStop
+                                       3
+                                      0x0
+                                      R/W
+1 : Short-cut between eventUp and taskStop enabled.
+
+0 : Short-cut between eventUp and taskStop disabled.
+
+ shortEventDownTaskStop
+                                       2
+                                      0x0
+                                      R/W
+1 : Short-cut between eventDown and taskStop enabled.
+
+0 : Short-cut between eventDown and taskStop disabled.
+
+ shortEventReadyTaskStop
+                                       1
+                                      0x0
+                                      R/W
+1 : Short-cut between eventReady and taskStop enabled.
+
+0 : Short-cut between eventReady and taskStop disabled.
+
+ shortEventReadyTaskSample
+                                       0
+                                      0x0
+                                      R/W
+1 : Short-cut between eventReady and taskSample enabled.
+
+0 : Short-cut between eventReady and taskSample disabled.
+0x300
+compBoxIrqEnable
+                                      3:0
+                                      0x0
+                                      R/W
+Interrupt enable register 
+
+irqEnableCross
+                                       3
+                                       0
+                                      R/W
+1 : Enable compBoxEventCross  as IRQ source.
+0 : Disable compBoxEventCross  as IRQ source.
+
+irqEnableUp
+                                       2
+                                       0
+                                      R/W
+1 : Enable compBoxEventUp  as IRQ source.
+0 : Disable compBoxEventUp  as IRQ source.
+
+irqEnableDown
+                                       1
+                                       0
+                                      R/W
+1 : Enable compBoxEventDown as IRQ source.
+0 : Disable compBoxEventDown  as IRQ source.
+
+irqEnableReady
+                                       0
+                                       0
+                                      R/W
+1 : Enable compBoxEventReady  as IRQ source.
+0 : Disable compBoxEventReady  as IRQ source.
+0x304
+compBoxSetIrqEnable
+                                      3:0
+                                      0x0
+                                      R/W
+Interrupt enable set register 
+
+irqEnableCross
+                                       3
+                                       0
+                                      R/W
+Write:
+1 : Enable compBoxEventCross as IRQ source.
+0 : No effect.
+Read: 
+1 : Enable compBoxEventCross as IRQ source.
+0 : Disable compBoxEventCross  as IRQ source.
+
+irqEnableUp
+                                       2
+                                       0
+                                      R/W
+Write:
+1 : Enable compBoxEventUp as IRQ source.
+0 : No effect.
+Read: 
+1 : Enable compBoxEventUp as IRQ source.
+0 : Disable compBoxEventUp  as IRQ source.
+
+irqEnableDown
+                                       1
+                                       0
+                                      R/W
+Write:
+1 : Enable compBoxEventDown as IRQ source.
+0 : No effect.
+Read: 
+1 : Enable compBoxEventDown as IRQ source.
+0 : Disable compBoxEventDown  as IRQ source.
+
+irqEnableReady
+                                       0
+                                       0
+                                      R/W
+Write:
+1 : Enable compBoxEventReady as IRQ source.
+0 : No effect.
+Read: 
+1 : Enable compBoxEventReady as IRQ source.
+0 : Disable compBoxEventCross  as IRQ source.
+0x308
+compBoxClearIrqEnable
+                                      3:0
+                                      0x0
+                                      R/W
+Interrupt enable clear register 
+
+irqEnableCross
+                                       3
+                                       0
+                                      R/W
+Write:
+1 : Disable compBoxEventCross as IRQ source.
+0 : No effect.
+Read: 
+1 : Enable compBoxEventCross as IRQ source.
+0 : Disable compBoxEventCross  as IRQ source.
+
+irqEnableUp
+                                       2
+                                       0
+                                      R/W
+Write:
+1 : Disable compBoxEventUp as IRQ source.
+0 : No effect.
+Read: 
+1 : Enable compBoxEventUp as IRQ source.
+0 : Disable compBoxEventUp  as IRQ source.
+
+irqEnableDown
+                                       1
+                                       0
+                                      R/W
+Write:
+1 : Disable compBoxEventDown as IRQ source.
+0 : No effect.
+Read: 
+1 : Enable compBoxEventDown as IRQ source.
+0 : Disable compBoxEventDown  as IRQ source.
+
+irqEnableReady
+                                       0
+                                       0
+                                      R/W
+Write:
+1 : Disable compBoxEventReady as IRQ source.
+0 : No effect.
+Read: 
+1 : Enable compBoxEventReady as IRQ source.
+0 : Disable compBoxEventReady  as IRQ source.
+0x400
+compBoxResult
+                                       0
+                                      0x0
+                                       R
+Result from the Compare. Taken at last sample task.
+
+0 : Input voltage is below reference threshold 
+1 : Input voltage is above reference threshold
+0x404
+compBoxBgReady
+                                       0
+                                      0x0
+                                       R
+Signal from the GP_CMP to indicate that comparator is ready for the case when BG is required.
+
+0 : comparator is not ready
+1 : comparator is ready
+0x500
+compBoxEnable
+                                      1:0
+                                      0x0
+                                      R/W
+Enable CompBox.  Retained 
+
+0 : Disable 
+1 : Enable Wakeup Comparator
+2: Enable General Purpose Comparator
+3: reserved
+0x504
+compBoxPSel
+                                      2:0
+                                       0
+                                      R/W
+Select Pad to supply input voltage. Retained
+
+0 : AIN0 selected as input voltage 
+1 : AIN1 selected as input voltage
+2 : AIN2 selected as input voltage
+3 : AIN3 selected as input voltage
+4 : AIN4 selected as input voltage
+5 : AIN5 selected as input voltage
+6 : AIN6 selected as input voltage
+7 : AIN7 selected as input voltage
+0x508
+compBoxRefSel
+                                      3:0
+                                       0
+                                      R/W
+Select reference voltage. Retained
+WU_CMP (180nm):  3-bits wide
+WU_CMP (55nm):  4-bits wide
+GP_CMP (55nm):  3-bits wide
+
+WU_CMP:
+0 : AVDD*1/8 selected as reference voltage  
+1 : AVDD*2/8 selected as reference voltage
+2 : AVDD*3/8 selected as reference voltage
+3 : AVDD*4/8 selected as reference voltage
+4 : AVDD*5/8 selected as reference voltage
+5 : AVDD*6/8 selected as reference voltage
+6 : AVDD*7/8 selected as reference voltage
+7 : External analogue reference voltage selected
+8 : AVDD*1/16 selected as reference voltage  
+9 : AVDD*3/16 selected as reference voltage
+10 : AVDD*5/16 selected as reference voltage
+11 : AVDD*7/16 selected as reference voltage
+12 : AVDD*9/16 selected as reference voltage
+13 : AVDD*11/16 selected as reference voltage
+14 : AVDD*13/16 selected as reference voltage
+15: AVDD*15/16 selected as reference voltage
+
+GP_CMP:
+0 : Internal 1.2 voltage reference
+1 : Internal 1.8 voltage reference
+2 : Internal 2.4 voltage reference
+3 : reserved
+4 : VDD (power down built-in reference)
+5 : External reference (power down built-in reference)
+6 : reserved
+7 : reserved
+0x50C
+compBoxExtRefSel
+                                       0
+                                       0
+                                      R/W
+External analogue reference select. Retained
+
+0 : Use AREF0 as external analogue reference
+1 : Use AREF1 as external analogue reference
+0x520
+compBoxAnaDetect
+                                      1:0
+                                       0
+                                      R/W
+Analogue detect configuration. Retained
+
+0 : CROSS; Generate analogDetect on crossing, both upward and downward crossing.
+1 : UP; Generate analogDetect on upward crossing.
+2 : DOWN; Generate analogDetect on downward crossing. 
+0x530
+compBoxTh
+                                     13:0
+                                      0x0
+                                      R/W
+GP Comparator Voltage Threshold
+13:8 = Select resistor ladder tap used when GP_CMP result is HIGH (VTH1=(n+1)/64 * VREF)
+7:6: reserved
+5:0   = Select resistor ladder tap used when GP_CMP result is LOW (VTH0=(n+1)/64 * VREF)
+0x534
+compBoxMode
+                                      8:0
+                                       1
+                                      R/W
+GP Comparator Mode
+[8]   : Differential mode enable
+[7:2]: reserved
+[1:0]: comparator power mode
+00: Low-power mode
+01: Normal mode
+10: High-speed mode
+11: Reserved 
+0x538
+compBoxHyst
+                                       0
+                                       0
+                                      R/W
+Enable comparator hysteresis. This is available only in 55nm. (50mV typical for GP_CMP)
+1: enable hysteresis (55nm only)
+0: disable hysteresis
+0x53C
+compBoxIsource
+                                      1:0
+                                       0
+                                      R/W
+Select feedback current for capacitive touch sensor in GP comparator
+00: off
+01: +/- 2.5uA
+10: +/-5uA
+11: +/-10uA 
+0x540
+compBoxRefTrim
+                                      4:0
+                                     0x10
+                                      R/W
+Trim internal band gap reference. The value would come from the info page after production calibration. See [10] for details.
+   Functional Description
+
+The CompBox is a box of comparators (wake-up and general purpose). It is architected to allow placing critical sub-modules in always-on domain so that it can generate a wake-up signal when all other domains are powered down. The parameters INCLUDE_WAKEUP_COMPARATOR and INCLUDE_GP_COMPARATOR can be used to determine which comparator is to be included. The first edition of the CompBox (upto v1.2) only includes the Wakeup Comparator (WU_CMP). With v2.0 the General Purpose Comparator (GP_CMP) is also included. The WU_CMP is required to be able to wake the system from a power-down state. Since this module has some wakeup functionality that is directed specifically at a system off scenario [2][8], some thought must be given (even at module level design) to placing the different sub-modules in the correct power domains to get the correct behavior. 
+
+The IP operates in two power domains. One domain is an "always on" domain, where no clock can be requested. Async designs techniques are needed in this domain. The other domain will be "less on", and clock and power need to be requested in this domain. 
+
+"Less on" is a way of describing a power domain in which it is needed to request power, and that can be turned off manually. The "less on" domain contains power controllers as it is required to be turned on upon request. The "less on" domain in this case is not always on even when the chip is in system on. The "always on" domain is always on in both system off and system on.
+
+ CompBox
+
+The CompBox is the top level of this module. The structure of the CompBox can be seen in Figure 1. The design compares an input voltage to a reference threshold. The digital part of the design has two main objectives; to generate wakeup signals in system off, and to generate events in system on. 
+
+
+ 
+Figure 1: CompBox design diagram (Not exact correspondence with architecture  -  some hierarchical levels missing)
+ CompBoxDig
+
+The CompBoxDigWakeUp is used for the first objective (to generate wakeup signals in system off), while the CompBoxDigCore is used for the second objective (to generate events in system on). 
+
+The CompBoxDigParRetentive and CompBoxDigParNonRetentive modules keep the retention  and normal registers respectively. All registers will be reset at system on. All the configuration registers will be retention registers. 
+
+The CompBoxDigReqControl and Nordic standard PcgcSlave modules are used to request clock in system on mode, both for setting up the system off functionality before entering system off and to generate events in system on. 
+
+
+
+ 
+Figure 2: CompBoxDig design diagram (all signal are not included. This diagram is just meant to give a general understanding of the construct.)
+ High Level Representation
+N/A
+ Design Implementation
+   General Description 
+ CompBoxDigParRetentive and CompBoxDigParNonRetentive
+CompBoxDig has a pair of sub-modules called CompBoxDigParRetentive and CompBoxDigParNonRetentive which implement all the registers/logic. All the registers and logic that need to be in the "always on" power domain are implemented in CompBoxDigParRetentive while all other logic under CompBoxDigParNonRetentive falls in the "less on" power domain.  
+
+compBoxEnable, compBoxAnaDetect, compBoxRefSel, compBoxPSel, compBoxExtRefSel, compBoxTh, compBoxMode, compBoxHyst, compBoxIsource, compBoxRefTrim, powerUpGpComp_rg and powerUpWuComp_rg are placed in the "always_on" domain since they are needed during system off. Unlike the other registers powerUpWuComp_rg and powerUpGpComp_rg are not PAR registers, but are set high when the START task is given and the wakeup comparator or the GP comparator are enabled (respectively).
+
+All event, task, shortcut and IRQ control registers are placed in CompBoxDigPar together with the result register. These registers are not needed in system off. The Nordic standard ParEventsAndIrq module is used to handle events and irq. All Par decoding is handled in CompBoxDigPar.
+
+CompBoxRefSel needs to service the following situations:
+ WU_CMP for 180nm (where it is 3-bits wide)
+ WU_CMP for 55nm (where it is 4-bits wide)
+ GP_CMP for 55nm (where it is 3-bits wide).
+For GP_CMP and the WU_CMP (180nm), compBoxRefSel[2:0] bits are directly sent to the respective analogue blocks. For the WU_CMP (55nm), some bit manipulation needs to be performed to keep the software visible register (compBoxRefSel) as backward compatible with the WU_CMP 180nm description. This bit manipulation is summarised in Table 4.
+Table 4: compBoxRefSel bit-encoding for WU_CMP @ 55nm with backward compatibility for WU_CMP @ 180nm
+                              Coding at ANA port
+                                  Description
+                                 Coding in SUS
+                                      Dec
+                                      Bin
+                                       
+                                      Dec
+                                      Bin
+                                       0
+                                     0000
+VDD x 1/16
+                                       8
+                                     1000
+                                       1
+                                     0001
+VDD x 1/8
+                                       0
+                                     0000
+                                       2
+                                     0010
+VDD x 3/16
+                                       9
+                                     1001
+                                       3
+                                     0011
+VDD x 2/8
+                                       1
+                                     0001
+                                       4
+                                     0100
+VDD x 5/16
+                                      10
+                                     1010
+                                       5
+                                     0101
+VDD x 3/8
+                                       2
+                                     0010
+                                       6
+                                     0110
+VDD x 7/16
+                                      11
+                                     1011
+                                       7
+                                     0111
+VDD x 4/8
+                                       3
+                                     0011
+                                       8
+                                     1000
+VDD x 9/16
+                                      12
+                                     1100
+                                       9
+                                     1001
+VDD x 5/8
+                                       4
+                                     0100
+                                      10
+                                     1010
+VDD x 11/16
+                                      13
+                                     1101
+                                      11
+                                     1011
+VDD x 6/8
+                                       5
+                                     0101
+                                      12
+                                     1100
+VDD x 13/16
+                                      14
+                                     1110
+                                      13
+                                     1101
+VDD x 7/8
+                                       6
+                                     0110
+                                      14
+                                     1110
+VDD x 15/16
+                                      15
+                                     1111
+                                      15
+                                     1111
+AREF
+                                       7
+                                     0111
+ CompBoxDigWakeUp
+The CompBoxDigWakeUp is an asynchronous design that is used to generate wakeup in system off. The design diagram for the module can be seen in Figure 2.
+
+The wakeup will be generated when the input voltage to the Comparator crosses the threshold voltage. The anaDetect configuration register is used to configure the module to either generate wakeup when the input voltage transitions; from a value below the threshold voltage to one above (UP transition), from a value above the threshold voltage to a value below (DOWN transition) or either of the mentioned (CROSS transition). 
+
+Four set registers are used to detect edges asynchronously. Two register (low register) get set at a low input level from the comparator (input voltage lower than reference voltage) and the other two registers (high register) are set at high input level from the comparator. When the module is configured to wake up on an up-transition the "high registers" will not be set until the "low registers" have been set. When the module is configured to wake up on a down transition the "low registers" will not be set until the "high registers" have been set. When a cross transition is configured, both registers will work independently. The wakeup signal will be activated when both registers have been set. Double registers have been used to avoid meta-stability.
+
+The four set registers are reset synchronously whenever the set value is low and the clock is running. Since there is no asynchronous reset to these registers a reset register is used to "reset" the output of the module until the clock has started running, i.e. clamping the module output to "0".  Hinst was used for all Logic connected to the set input of the registers, in order to keep the set inputs glitch free. 
+
+The output of CompBoxDigWakeUp is gated until the analogue comparator is ready and supplying valid outputs, a signal called gateAnaWakeup is used to control this gating. The reason why the output is gated, and not the input, is that this allows the "high registers" and the "Low Registers" to be in the right state when the gating of the output is released. This prevents a false anaWakeup (wakeup signal) from the edge, generated when moving from the gated value to the actual value.  
+
+In system off the configuration signals are retained while the gateAnaWakeup, clock and arst are isolated to 0.  
+
+
+AnaDetect
+wakeUpDownConfig
+wakeUpUpConfig
+High Reg set
+Low Reg set
+Up
+                                                                              0
+                                                                              1
+wuCompDout && downReg
+!wuCompDout
+Down
+                                                                              1
+                                                                              0
+wuCompDout
+!wuCompDout && upReg
+Cross
+                                                                              1
+                                                                              1
+wuCompDout
+!wuCompDout
+None
+                                                                              0
+                                                                              0
+                                                                              0
+                                                                              0
+Table 5: Table showing the set value to High Register and Low Register in different anaDetect configurations (wakeupDownConfig and wakeupUpConfig).
+ 
+
+Figure 3: CompBoxDigWakeup design diagram (scantest muxes for set input of flip flops have been excluded from the figure.)
+ CompBoxDigReqControl
+
+
+The CompBoxDigReqControl   is used to control the request signals to the PcgcSlave.  
+
+The clock to power clock pair 0 (pcp 0), which is the par clock, is requested when a task or an event is active.
+
+The clock to power clock pair 1 (pcp 1), which is the 16Mhz core clock, is requested when the Core requests it.
+
+The  clock to power clock pair 2 (pcp 2), which is the 1MHz core clock is requested by the core to run a slow counter during ramp-up when the comparators are initially enabled.
+
+The clock to power clock pair 4 (pcp 4), which is the 16Mhz clock is special. The clock is never used, but the reset is used to generate a fast reset for the 1MHz clock domain. Otherwise the 1MHz clock domain registers (counter measuring start-up time) would not be reset in the case when the CompBox is disabled and enabled in less than 2us.
+
+In Graviton, the CompBox "less always on" portion was moved to "less on". To cater for the change the pcp 1 will be at penalty level 2'b01 i.e it will request Power when CompBox is activated via taskStart. 
+
+ CompBoxDigCore
+The core has three main functions:
+
+1. Generate events at transitions on the input voltage compared to the threshold voltage.
+2. Gate signals until the Comparator is powered up.
+3. Request resources for CompBoxDigCore and CompBoxDigWakeUp.
+
+Let's start at the top of the list. The event generation is handled with the use of two instantiations of CaptureAndRequestCore from, the CaptureAndRequest IP. One instantiation has the output of the analogue comparator as a input while the other one has the inverted output of the analogue comparator as an input (see Figure 6).  
+
+A simplified design diagram of CaptureAndRequest Core can be seen in Figure 4. CaptureAndRequestCore is a module that generates events on a high input level. It is not an edge sensitive module, but it does have the possibility to clear a request once the event has been generated (Clear Request Register in  Figure 4).  This means that the input must go low again before the next high level can be detected. This will make it possible to use the CaptureAndRequestCore module as an edge detect. However, the CaptureAndRequestCore module must be in the right state (i.e. Clear Request Register must contain a high value) for it to be able to detect edges rather than levels, see Figure 5. 
+
+In order to get the CaptureAndRequestCore modules to the right state, high levels are applied on the inputs of the modules while the comparator is powered up. The outputs of the CaptureAndRequestCore modules are gated until the comparator is ready, so that the false events generated while setting the CaptureAndRequestCore modules to the right state, are gated away. When the Comparator is ready the CaptureAndRequestCore instances will wait for a low level before they generate events on high levels, and are therefore edge sensitive.   
+
+These CaptureAndRequestCore instances generate upEvent and downEvent, while crossEvent is an OR of the two. 
+   
+ 
+Figure 4 Simplified design diagram for CaptureAndRequestCore
+
+
+
+
+
+Figure 5: Simplified timing diagram, showing the sequence of CaptureAndRequest (compBoxEvent is the connected event in CompBox; cross, up or down). compBoxEvent is gated by compNotReady during the first event. The use of compNotReady in this figure is a simplification.
+
+
+
+
+Figure 6: Simplified diagram of captureAndRequestCore instantiations. The use of compNotReady in this figure is a simplification.
+
+
+Let's move on to the second function of the module. While the Comparator is powering up the input to both CaptureAndRequestCore modules must be gated to get them to the right state, and the output of the CompBoxDigWakeUp must be gated as mentioned in section 4.1.2, the events from CompBoxDigCore are also gated, as mentioned. Since CompBoxDigWakeUp is in a "more on" power domain only the signal that controls the gating is generated in CompBoxDigCore (and isolated to inactive), and the actual gating is performed in the "always_on" domain. 
+
+In order to gate signals while the Comparator is not ready we must determine when the Comparator is ready. This is done through the use of a timer operating with the 1Mhz clock. The 180nm WU_CMP will be ready after 40us. When the powerUp signal to the Comparator goes high, the timer starts counting until it has reached 40us, a signal called compNotReady is set low when this is reached. The granularity of the timer is 1us so the duration measured by the counter is between 40 and 41us. The startup time can be adjusted to other times than 40 with the use of the WAKEUP_COMP_STARTUP_TIME parameter. 
+
+For the case of the 55nm WU_CMP, the comparator is ready after 140us of power up, while for the case of the 55nm GP_CMP, the comparator would be ready after 3us of power up. If the GP_CMP compBoxRefSel is set to 0, 1 or 2 (use internal voltage), then the GP_CMP requires 80us for the BG to be ready. However, this doesn't need to be timed because the analogue block generates a bgReady signal which is used by the CompBoxDigCore to detect when the GP_CMP is ready.
+
+The counter to time all this runs at a 1MHz clock, which is obtained via the PCGC system. When a comparator (e.g. WU_CMP) is powered down, the counter requests a reset from the PCGC system. The reset is dependent upon a ClockGateSyncReset instance and therefore, can take up to 2 clock cycles (@1MHz) to generate a reset. This would mean that the micro-controller would not be able to switch between the 2 comparators in less than 2us. To mitigate this, the power/clock pcp[4] is requested from the PCGC from the 16MHz domain. The clock from this pair is unused, but the asynchronous reset is OR-ed together with the 1MHz domain reset to generate the reset for the counter registers. Since the 1MHz clock domain is assumed to be synchronous to the 16MHz clock domain (generated clock), this method is deemed to be safe.
+
+It's time to finish the section off by describing the last functionality of the module. Both CompBoxDigCore and CompBoxDigWakeUp are connected to the same 16Mhz clock and any request will give clock to both modules. CompBoxDigWakeUp needs two clock cycles to reset the set registers, CaptureAndRequestCore needs the clock to generate events and the clock is needed to generate the eventReady and clear the set registers relevant to the eventReady. 
+
+The 1Mhz clock is requested when the Comparator is powered up and the comparator is not ready. 
+
+The 16Mhz clock is requested in order to generate the eventReady and clear the related registers. This request also leads to the CompBoxDigWakeUp being reset synchronously before the gating is opened up.  The CaptureAndRequest modules also request the clock when an event should be generated. This also leads to the CompBoxDigWakeUp being reset synchronously after an edge has been detected.
+
+Standard Operating Procedure
+The steps for correct operation are:
+ configure registers
+ enable one comparator
+ issue START task
+ wait for ready event
+ read results of comparison operation etc.
+ eventually issue STOP task
+ disable both comparators
+ Go back to step 1 if needed
+For the case of the WU_CMP, it is possible for the microcontroller to go to sleep after step 3
+ Design Files 
+Table 6: Design files.
+File Name
+Item Name
+Sub Items
+# Instances
+CompBox.fl
+-
+-
+-
+pa_ CompBox.sv
+pa_CompBox
+
+-
+CompBox.sv
+CompBox
+CompBoxTmx 
+WU_CMP_Wrapper
+GP_CMP_Wrapper
+1
+1
+CompBoxDig.sv
+CompBoxDig
+PcgcSlave
+CompBoxDigWakeUp
+CompBoxDigParRetentive
+CompBoxDigParNonRetentive
+CompBoxDigCore
+CompBoxDigReqControl
+1
+1
+1
+1
+1
+1
+CompBoxDigCore.sv
+CompBoxDigCore
+CaptureAndRequestCore
+2
+CompBoxDigParRetentive.sv
+CompBoxDigParRetentive
+ -
+ -
+CompBoxDigParNonRetentive.sv
+CompBoxDigParNonRetentive
+ParEventsAndIrq
+1
+CompBoxDigReqControl.sv
+CompBoxDigReqControl
+-
+
+CompBoxDigWakeUp.sv
+CompBoxDigWakeUp
+HinstAnd2
+HinstOr2
+2
+2
+CompBoxTestCtrl.sv
+CompBoxTestCtrl
+Script generated code
+
+CompBoxTestMux.sv
+CompBoxTestMux
+Script generated code
+
+CompBoxTmx.sv
+CompBoxTmx
+Script generated code
+CompBoxTestCtrl
+CompBoxTestMux
+CompBoxDig
+
+1
+1
+1
+WU_CMP_Wrapper.sv
+WU_CMP_Wrapper
+IP00017_WU_CMP_4377
+WU_CMP_TSMC55N
+1
+1
+GP_CMP_Wrapper.sv
+GP_CMP_Wrapper
+GP_CMP_TSMC55N
+1
+
+ Clock
+The IP has 4 power clock pairs (pcp). Pcp 0 and 1 uses the 16Mhz clock , pcp 2 uses a 1Mhz clock and pcp 4 as described in Section 4.1.3. All signals from pcp 2 are related to combinatorial logic or asynchronous logic and there are no synchronisation issues. 
+
+CompBoxDigWakeUp is also used asynchronously when the chip is in system off. 
+ Reset 
+The IP utilizes asynchronous reset according to Nordic standard; asynchronous on/synchronous off.
+ Critical Integration and Reuse Issues
+wuCompDout must be glitch free. 
+All isolations should be to zero. 
+Cgen must be run for each product, and there are testcase descriptions connected to each product. 
+
+The comparators share registers and only one of WU_CMP or GP_CMP can be enabled at a time. The software cannot disable one comparator and enable the other in the same PAR write. 
+
+The 1MHz clock domain should be synchronous to the core (16MHz) clock domain. In particular, clocks from all PCPs are assumed to be in sync.
+
+The IP doesn't exactly depend on the location of FICR bits for REFTRIM register nevertheless, the location in Quark is InfoConfReg[812:808]
+
+
+
+ Verification
+   Verification Cases
+Table 7: Verification Cases.
+
+ 
+ Assertion Coverage 
+
+
+
+Table 8: Assertion Coverage
+
+
+
+
+
+
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+                                                                               
+
+
+ Code Coverage 
+An exact list of code coverage exclusions can be seen in the script:
+http://svn.nordicsemi.no/seesaw/ip/CompBox/trunk/sim/run/rtl/CompBox_rtl.sim
+
+                                    Module
+Coverage
+Comment
+CompBox
+Stmt: 100%
+Branches:100%
+Conditions: 100%
+Expressions: 100%
+Toggle Bins: 100%
+Excluded:
+ All test signals
+ taskZeroPenalty and taskFullPenalty
+ ibpp10n
+ ParDi[6-7 and 14-31]
+CompBoxDig
+Stmt: 100%
+Branches:100%
+Conditions: 100%
+Expressions: 100%
+Toggle Bins: 100%
+Excluded:
+ Sync req for pcp 1
+ Async req for pcp 0 and 2
+ Pcp 4 sync& async 
+ 
+CompBoxDigCore
+Stmt: 100%
+Branches:100%
+Conditions: 100%
+Expressions: 100%
+Toggle Bins: 100%
+Excluded:
+ If branch in counter not reached. One is unnecessary.  
+ External IPs 
+ ceilLog2 function
+CompBoxDigParRetentive
+Stmt: 100%
+Branches:100%
+Conditions: 100%
+Expressions: 100%
+Toggle Bins: 100%
+See [11]
+
+CompBoxDigParNonRetentive
+Stmt: 100%
+Branches:100%
+Conditions: 100%
+Expressions: 100%
+Toggle Bins: 100%
+See [11]
+
+CompBoxDigReqControl
+Stmt: 100%
+Branches:100%
+Conditions: 100%
+Expressions: 100%
+Toggle Bins: 100%
+See [11]
+
+CompBoxDigWakeUp
+Stmt: 100%
+Branches:100%
+Conditions: 100%
+Expressions: 100%
+Toggle Bins: 100%
+Excluded:
+ anaDetectConfig gates both registers and output. One expression excluded. The expression is probably not needed but kept in case of strange corner cases. 
+
+
+ Verification Files 
+
+Table 98: Verification Files.
+                                   Ref. No. 
+File/Script
+Comment
+                                       1
+RUN_ALL
+Starting point for all simulations.
+                                       2
+CompBox.args
+Arguments file.
+                                       3
+CompBox.comp
+Compilation file.
+                                       4
+CompBox.sim
+Simulation file.
+                                       5
+test_CompBox.sv
+Test bench.
+                                       6
+paTest_CompBox.sv
+Test bench package.
+                                       7
+nVip_Pcgc.sv
+Pcgc nVip
+                                       8
+nVip_ParDriver.sv
+Par Driver nVip
+                                       9
+nVip_ParVerifier.sv
+Par verifier nVip
+
+   Testbench Description 
+
+
+  Figure 7: Testbench diagram
+
+
+nVip_ParVerifier, nVip_ParDriver and nVip_Pcgc are used in the testbench. TestDriver has two modes, one with specific stimuli to test things like interrupt and shortcuts and one with random stimuli that will allows more thorough testing of event generation. 
+
+The test bench is a go/no-go testbench, that reports fail or success after the simulation has finished. 
+
+
+
+ Production Test Issues and DFT
+
+NOTE : The following DFT tables are OUTDATED (had a chat with "lk" about this). The DFT teams wants to keep the table. 
+For Graviton Proto : The lastest updates can be found in here.
+
+Table  SEQ Table \* ARABIC 10: WU_CMP Signal mapping in different test modes
+                      Analogue IP interface is TestModes
+                                      A/D
+                                      I/O
+                               (To Analogue IP)
+                                     Scan 
+                                      (0)
+                                    TestWu
+                                      (1)
+                                    testGp
+                                      (2)
+                                    PwrDown
+                                      (3)
+                                    Comment
+VIN_P
+                                       A
+                                       I
+                                       -
+                                       -
+                                       -
+                                       -
+N/A
+VIN_N
+                                       A
+                                       I
+                                       -
+                                       -
+                                       -
+                                       -
+N/A
+IBPP_10N
+                                       A
+                                       I
+                                       -
+                                       -
+                                       -
+                                       -
+Bias Current.
+4:0 for 180nm
+0:0 for 55nm
+PWRUP_WU_CMP
+                                       D
+                                       I
+                                       0
+                                 testBusIn[9]
+                                       0
+                                       0
+Power up control
+WU_CMP_THSEL[0]
+                                       D
+                                       I
+                                       0
+                                 testBusIn[8]
+                                       0
+                                       0
+Threshold voltage selection, LSB
+WU_CMP_THSEL[1]
+                                       D
+                                       I
+                                       0
+                                 testBusIn[6]
+                                       0
+                                       0
+Threshold voltage selection
+WU_CMP_THSEL[2]
+                                       D
+                                       I
+                                       0
+                                 testBusIn[7]
+                                       0
+                                       0
+Threshold voltage selection, MSB for 180nm
+WU_CMP_THSEL[3]
+                                       D
+                                       I
+                                       
+                                       
+                                       
+                                       
+Threshold voltage selection, MSB for 55nm
+WU_CMP_HYST
+                                       D
+                                       I
+                                       
+                                       
+                                       
+                                       
+Hysteresis mode selection
+WU_CMP_DOUT
+                                       D
+                                       O
+                                       -
+                                 testBusOut[6]
+                                       -
+                                       -
+Comparator output
+
+Table11 SEQ Table \* ARABIC : GP_CMP Signal mapping in different test modes
+                      Analogue IP interface is TestModes
+                                      A/D
+                                      I/O
+                               (To Analogue IP)
+                                     Scan 
+                                      (0)
+                                    TestWu
+                                      (1)
+                                    testGp
+                                      (2)
+                                    PwrDown
+                                      (3)
+                                    Comment
+GPCMP_VIP
+                                       A
+                                       I
+                                       -
+                                       -
+                                       -
+                                       -
+N/A
+GPCMP_VIN
+                                       A
+                                       I
+                                       -
+                                       -
+                                       -
+                                       -
+N/A
+GPCMP_VREF
+                                       A
+                                       I
+                                       -
+                                       -
+                                       -
+                                       -
+External reference voltage
+PWRUP_GPCMP
+                                       D
+                                       I
+                                       
+                                       
+                                       
+                                       
+Power up control
+GPCMP_VTH0[5:0]
+                                       D
+                                       I
+                                       
+                                       
+                                       
+                                       
+Threshold voltage low
+GPCMP_VTH1[5:0]
+                                       D
+                                       I
+                                       
+                                       
+                                       
+                                       
+Threshold voltage high
+GPCMP_PWR_MODE[1:0]
+                                       D
+                                       I
+                                       
+                                       
+                                       
+                                       
+Power mode selection
+GPCMP_REF_SEL[2:0]
+                                       D
+                                       I
+                                       
+                                       
+                                       
+                                       
+Reference selection
+GPCMP_ISOURCE[1:0]
+                                       D
+                                       I
+                                       
+                                       
+                                       
+                                       
+Current source selection
+GPCMP_HYST
+                                       D
+                                       I
+                                       
+                                       
+                                       
+                                       
+Hysteresis mode selection
+GPCMP_REF_TRIM[4:0]
+                                       D
+                                       I
+                                       
+                                       
+                                       
+                                       
+Production calibration word
+GPCMP_DOUT
+                                       D
+                                       O
+                                       -
+                                       
+                                       -
+                                       -
+Comparator output
+GPCMP_BG_RDY
+                                       D
+                                       O
+                                       
+                                       
+                                       
+                                       
+BG ready status
+
+Table12 SEQ Table \* ARABIC : Crossing between analogue and digital domain in test
+                          Signal names in Analogue IP
+                       Analogue IP Signal Names for TMX
+                            Signal Names in DigCore
+                                    Comment
+PWRUP_WU_CMP
+pwrupWuCompFdc
+pwrupWuComp
+Made controllable and blocked in scan test
+WU_CMP_THSEL[0]
+wuCompThSelFdc[0]
+wuCompThSel[0]
+Made observable in scan test
+WU_CMP_DOUT
+wuCompDoutFana
+wuCompDout
+Made observable in scan test
+WU_CMP_THSEL[1]
+wuCompThSelFdc[1]
+wuCompThSel[1]
+Made observable in scan test
+WU_CMP_THSEL[2]
+wuCompThSelFdc[2]
+wuCompThSel[2]
+Made observable in scan test
+
+
+CompBox have 4 modes that connect the analogue part of IP as shown in Table 9. The testmodes are Scan mode, PowerDown mode, TestGp mode and TestWuMode.
+
+In scan (ID 0) mode the signals coming from analogue part need to be blocked (to avoid floating signals) and made controllable for the scan mode. This is done by command_control_reduced  and command_block   cgen commands [7]. 
+The logic connected to signals crossing from digital to analogue domain needs to be made observable for the scan mode. This is done by command_observe cgen command. (see Table 11)
+
+PowerDown (ID 3) mode keeps the IP turned off, thus all signals to analogue part are grounded.
+
+TestWu mode is used to test the wakeup comparator IP. In this mode the analogue part of the IP is connected to the testBusIn and testBusOut according to Table 9. 
+
+testGp mode for testing of general purpose comparator is not implemented 
+
+In normal mode the signals from/to analogue part are connected to its digital equivalents. 
+
+
+ Physical implementation
+   Technology 
+Table 12: Technology.
+Table 13: Library 180nm
+Library Name
+ARTISAN018G_SC_1V15SS85C_1V2
+Library Version
+20101109
+Technology
+180nm
+
+Table 14: Library 55nm
+Library Name
+tcbn55lpbwp7t_0V85SS-25C
+Library Version
+20130822
+Technology
+55nm
+
+Table 15: Operating Conditions 180nm
+Library Operating Condition Name
+LIB_1V15SS85C
+Process Factor
+1.15
+Voltage
+1.0 V
+Temperature (Junction)
+85 C
+
+Table 16: Operating Conditions 55nm
+Library Operating Condition Name
+LIB_0V85SS-25C
+Process Factor
+1.0
+Voltage
+0.85 V
+Temperature (Junction)
+-25 C
+   Logic Synthesis 
+
+Not special issues. Formal verification proved the netlist and RTL code to be logically equivalent.
+ Static Timing Verification
+
+Not verified at this level.
+ Area 
+Table 17: Area reported after synthesis 180nm
+Item
+Value
+Comment
+# Gates [NAND2 Equivalents]
+                                                                           1720
+Cell area, comparator excluded
+# Flip-Flops in Clock Domain ck16M
+                                                                             89
+18 in always_on
+# Flip-Flops in Clock Domain ck1M
+                                                                              3
+
+
+Table 18: Area reported after synthesis 55nm
+Item
+Value
+Comment
+# Gates [NAND2 D0 drive Equivalents]
+                                                                        4642.42
+Cell area, comparator excluded
+# Flip-Flops in Clock Domain ck16M
+                                                                            122
+36 in always_on
+# Flip-Flops in Clock Domain ck1M
+                                                                              5
+
+
+Although the difference in area between 55nm and 180nm seems to be large at first glance, this can be explained partially by the new features implemented for the GP_CMP and partially because of the technology differences.. The drive strengths of "equivalent" 55nm and 180nm gates are not exactly the same, and the synth tool would/could end up taking quite different "design-decisions" while translating the RTL to gates.
+ Tool Overview
+
+Table 19: Tool overview.
+                                     Tool
+Version
+Comment
+                                   QuestaSim
+questasim/10.4e_beta_2932859
+
+                                DesignCompiler
+1303-sp3
+
+                                   FormalPro
+2011.4
+
+
