@@ -14,6 +14,7 @@ my $levels = $ARGV[3];
 #print "Dir 1: $inputDir, Dir 2  $insideDir"; 
 #print "You want to search $inputDir "; 
 my @dir ;
+#print "$pathToSearch : $inputDir\n";
 if (defined $inputDir ) { 
     my $rule = File::Find::Rule->new;
     $rule->directory;

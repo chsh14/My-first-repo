@@ -81,7 +81,11 @@ elif [[ ${1:0:5} == "-proj" ]]; then
     #go to projects folder
     PATHTOSEARCH="$VC_WORKSPACE/projects"
     #PATHTOSEARCH=$HOME
-    findInWs $PATHTOSEARCH $2 "abc" $4 
+    if [ "$2" == "" ]; then
+        findInWs $PATHTOSEARCH
+    else
+        findInWs $PATHTOSEARCH $2 "abc" $4 
+    fi
 elif [[ ${1:0:7} == "-method" ]]; then
     #go to methodology folder
     PATHTOSEARCH="$VC_WORKSPACE/methodology/DesignKit"
