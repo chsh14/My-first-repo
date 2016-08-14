@@ -2,4 +2,5 @@
 *.[a-z]*~
 #Ignore anyfile ending with ~
 *~
+*.swp
 
