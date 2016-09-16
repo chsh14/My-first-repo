@@ -3,4 +3,5 @@
 #Ignore anyfile ending with ~
 *~
 *.swp
+*.un~
 
