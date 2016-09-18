@@ -1,9 +1,9 @@
-#!/usr/bin/perl 
- 
+#!/usr/local/bin/perl5.12
+use lib '/pri/chsh/5.18/5.18';
 #use lib '/Users/chirayushah/Downloads/jira-client-automated-master/lib';
 use JIRA::Client::Automated;
-use Data::Dumper qw(Dumper); 
-use Getopt::Long qw(GetOptions); 
+use Data::Dumper qw(Dumper);
+use Getopt::Long qw(GetOptions);
 
 
 sub printCust {
@@ -16,12 +16,12 @@ sub printCust {
         print "$_[0]\n";
         print "------------------\n";
     }
-} 
+}
 
 
 sub createTaskGluonFP1 {
     printCust "Creating task for GluonFP1..";
-    
+
  my $issue = $jira->create({
     # Jira issue 'fields' hash
     project     => {
@@ -33,27 +33,27 @@ sub createTaskGluonFP1 {
     },
     summary     => $summary,
     description => $description,
-    customfield_10531 => 'IC-13484', # Epic Link 
+    customfield_10531 => 'IC-13484', # Epic Link
     priority => {
-        name => 'Major' 
+        name => 'Major'
     },
     fixVersions => [
         {
-        'name' => 'Quark Gluon', 
+        'name' => 'Quark Gluon',
         'id' => '13727'
         }
     ],
-    'components' =>  [ 
+    'components' =>  [
         {
-            'name' => 'QUARK', 
+            'name' => 'QUARK',
             'id' => '11411'
         },
         {
            'name' => 'Chip Integration',
-           'id' => '11484' 
+           'id' => '11484'
         }
     ],
-    'assignee' => { 
+    'assignee' => {
         'name' => 'chsh'
     },
     'customfield_10332' => {     #Disipline
@@ -61,11 +61,11 @@ sub createTaskGluonFP1 {
     },
     customfield_11035 => [
         {      #Product
-        'value' => 'Quark Gluon' 
+        'value' => 'Quark Gluon'
         }
     ]
 });
-printCust "$issue";
+print Dumper $issue;
 }
 
 sub createTaskCI {
@@ -80,24 +80,24 @@ sub createTaskCI {
     },
     summary     => $summary,
     description => $description,
-    customfield_10531 => $epic #'IC-10915', # Epic Link (Improvements to CI Flow) 
+    customfield_10531 => $epic, #'IC-10915', # Epic Link (Improvements to CI Flow)
     priority => {
-        name => 'Major' 
+        name => 'Major'
     },
-    'components' =>  [ 
+    'components' =>  [
         {
            'name' => 'Chip Integration',
-           'id' => '11484' 
+           'id' => '11484'
         }
     ],
-    'assignee' => { 
+    'assignee' => {
         'name' => 'chsh'
     },
     'customfield_10332' => {     #Disipline
         'value' => 'Digital'
     }
-}); 
-printCust "$issue"
+});
+print Dumper $issue;
 }
 
 sub createTaskGraviton {
@@ -114,25 +114,25 @@ sub createTaskGraviton {
     description => $description,
     customfield_10531 => 'IC-5835', # Epic Link Graviton IC-Implementation
     priority => {
-        name => 'Major' 
+        name => 'Major'
     },
     fixVersions => [
         {
-        'name' => 'Quark Graviton Final', 
+        'name' => 'Quark Graviton Final',
         'id' => '13727'
         }
     ],
-    'components' =>  [ 
+    'components' =>  [
         {
-            'name' => 'QUARK', 
+            'name' => 'QUARK',
             'id' => '11411'
         },
         {
            'name' => 'Chip Integration',
-           'id' => '11484' 
+           'id' => '11484'
         }
     ],
-    'assignee' => { 
+    'assignee' => {
         'name' => 'chsh'
     },
     'customfield_10332' => {     #Disipline
@@ -140,31 +140,31 @@ sub createTaskGraviton {
     },
     customfield_11035 => [
         {      #Product
-        'value' => 'Quark Graviton' 
+        'value' => 'Quark Graviton'
         }
     ]
 });
-printCust "$issue"; 
+print Dumper $issue;
 
 }
 
 
 $url="http://projecttools.nordicsemi.no/jira";
 $user="chsh";
-$password="";
+$password="$ENV{'PASSWORD'}";
 $jira = JIRA::Client::Automated->new($url, $user, $password);
-$jira->trace(0);  
+$jira->trace(0);
 my $arg_num = scalar @ARGV;  #getopt modifies the @ARGV array
-#print Dumper $issues; 
+#print Dumper $issues;
 GetOptions( \%args,
         'Glu' => \$Glu,
         'ChipInt' => \$ChipInt,
         'GravF' => \$GravF
-    ) or die "Usage: $0 --Glu or --ChipInt or --GravF\n"; 
+    ) or die "Usage: $0 --Glu or --ChipInt or --GravF\n";
 #print "Arguments :" . $arg_num . "\n";
 if ($arg_num == 1) {
     printCust "Pls Enter Summary [Required] :";
-    print "Summary :"; 
+    print "Summary :";
     chomp ($summary=<>);
     printCust "Pls Enter Description [Optional] :";
     print "Description: ";
@@ -182,8 +182,8 @@ if ($arg_num == 1) {
         printCust "EPIC link other than [Default : IC-10915] [y/n] ?";
         print "Answer :";
         chomp ($answer=<STDIN>);
-        if ($answer -eq "y" ) {
-            print "Epic ID :" 
+        if ($answer eq "y" ) {
+            print "Epic ID :";
             chomp ($epic=<STDIN>);
         } else {
             $epic = 'IC-10915'
@@ -195,7 +195,7 @@ if ($arg_num == 1) {
         createTaskGraviton
     } else {
         printCust "Better Luck next time $USER..!";
-    } 
+    }
 } else {
     die "Need atleast one argument $!";
 }
@@ -204,11 +204,11 @@ if ($arg_num == 1) {
 @fieldsToReturn = qw(resolution status project );
 $fields=\@fieldsToReturn;
 $jql='assignee=chsh';
-$issues = $jira->search_issues($jql,1,100); 
+$issues = $jira->search_issues($jql,1,100);
 
 
 
-#my $issue = $jira->get_issue('DESPROC'); 
-#createTaskGluonFP1 
+#my $issue = $jira->get_issue('DESPROC');
+#createTaskGluonFP1
 #$key=101407;
-               
+
