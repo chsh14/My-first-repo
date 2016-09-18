@@ -1,0 +1,25 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+#	name = chsh14
+#	email =chirayu.shah14@gmail.com
+[user]
+	name = chsh
+	email = chirayu.shah14@gmail.com
+[core]
+	editor = /usr/bin/vim
+	excludesfile = /pri/chsh/.gitignore_global
+[color]
+	ui = true
+[push]
+	default = simple
+[alias]
+    st = status
+    l = log --stat --graph --decorate
+    co = checkout
+    f = fetch --all
+    br = branch -vv
+    b = branch -vv -a
+    ci = commit
+    r = remote -v
+    d = diff --ignore-all-space
