@@ -1,10 +1,10 @@
-#!/usr/local/bin/perl5.12
+#!/usr//bin/perl
 use lib '/pri/chsh/5.18/5.18';
 #use lib '/Users/chirayushah/Downloads/jira-client-automated-master/lib';
 use JIRA::Client::Automated;
 use Data::Dumper qw(Dumper);
 use Getopt::Long qw(GetOptions);
-
+use Term::ANSIColor qw(:constants);
 
 sub printCust {
     if (exists $_[1]) {
@@ -65,7 +65,8 @@ sub createTaskGluonFP1 {
         }
     ]
 });
-print Dumper $issue;
+
+showCreateTask($issue);
 }
 
 sub createTaskCI {
@@ -97,7 +98,8 @@ sub createTaskCI {
         'value' => 'Digital'
     }
 });
-print Dumper $issue;
+#print Dumper $issue;
+showCreateTask($issue);
 }
 
 sub createTaskGraviton {
@@ -144,8 +146,19 @@ sub createTaskGraviton {
         }
     ]
 });
-print Dumper $issue;
+#print Dumper $issue;
+showCreateTask($issue);
+}
 
+sub showCreateTask {
+    my %hash = %{$_[0]}; #passing hashref
+    $self = $hash{'self'};
+    $key  = $hash{'key'};
+    @splitArr = split /\/rest\//, $self;
+    #print "@splitArr\n";
+    if (scalar @splitArr != 2) { print Dumper $_[0]; die " ERROR : Jira rest API output format has changed..";}
+    printCust "There you go $ENV{'USER'}!";
+    print GREEN, "$splitArr[0]/browse/$key\n", RESET;
 }
 
 
