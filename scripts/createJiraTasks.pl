@@ -88,14 +88,10 @@ sub createTaskCI {
     'components' =>  [
         {
            'name' => 'Chip Integration',
-           'id' => '11484'
         }
     ],
     'assignee' => {
-        'name' => 'chsh'
-    },
-    'customfield_10332' => {     #Disipline
-        'value' => 'Digital'
+        'name' => $ENV{'USER'},
     }
 });
 #print Dumper $issue;
