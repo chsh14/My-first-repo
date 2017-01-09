@@ -116,8 +116,7 @@ sub createTaskGraviton {
     },
     fixVersions => [
         {
-        'name' => 'Quark Graviton Final',
-        'id' => '13727'
+        'name' => 'Quark Graviton Final'
         }
     ],
     'components' =>  [
@@ -162,6 +161,7 @@ $url="http://projecttools.nordicsemi.no/jira";
 $user="chsh";
 $password="$ENV{'PASSWORD'}";
 $jira = JIRA::Client::Automated->new($url, $user, $password);
+# Want to debug ? set the trace to 1
 $jira->trace(0);
 my $arg_num = scalar @ARGV;  #getopt modifies the @ARGV array
 #print Dumper $issues;
