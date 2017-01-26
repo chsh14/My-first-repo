@@ -3,6 +3,9 @@ my $JiraTable = "JiraTableIDToPaste.txt";
 my $JiraMsgTable = "JiraTableMsgToPaste.txt";
 my $warningsWO_ID = "WarningsWithoutID.txt"; 
 
+#Document and waive VCLP warnings
+#Currently Waiving feature is not supported since we already create the waivers.tcl
+
 ###########################
 # Custom Print Function
 ###########################
@@ -90,6 +93,37 @@ sub findWarnings {
     }
 
 }
+
+
+###########################
+# Check for Waived warnings ID's.
+###########################
+
+sub checkWaived {
+    # Two arguments  1) Scalar , 2) Array.
+    my $foundWaived = 0;
+    $warning = $_[0];
+    @waived = @{$_[1]};
+    #printCust "Checking if \"$warning\" is waived of not..";
+    if (scalar(@waived) == 0) {
+        #print @waived;
+        #printCust "Array @waived contains (@waived) elements.. exiting" ;
+        return $foundWaived;
+    } else {
+        foreach $waived_elem (@waived) {
+            chomp($warning);
+            #printCust "Comparing \"$warning\" & \"$waived_elem\"";
+            if ($warning eq $waived_elem) {
+                #printCust "Found Waived warning..";
+                $foundWaived = 1;
+                return $foundWaived;
+            }
+        }
+    }
+    return $foundWaived;
+
+}  
+
 ###########################
 # Make JiRA TABLE
 ########################### 
@@ -99,9 +133,9 @@ sub createTable {
     open (WOID, ">", $warningsWO_ID ) or die "Could not open $warningsWO_ID$!\n"; 
     print OUT "|| Type || Num of Inst. || Status || Message || Waived/Fixed ||\n"; 
     foreach $key (keys %warningHash) { 
-        print "key : $key, Count : $warningHash{$key}{value}, Message : $warningHash{$key}{line}, NextLine : $warningHash{$key}{Nextline} \n";
+        #print "key : $key, Count : $warningHash{$key}{value}, Message : $warningHash{$key}{line}, NextLine : $warningHash{$key}{Nextline} \n";
         if ($warningHash{$key}{Nextline} eq "") {
-            print "NextLine is empty\n";
+            #print "NextLine is empty\n";
             print OUT "|$key|$warningHash{$key}{value}|(x)| $warningHash{$key}{line} | |\n"; 
         } else {
             print OUT "|$key|$warningHash{$key}{value}|(x)| $warningHash{$key}{Nextline} | |\n"; 
@@ -114,7 +148,7 @@ sub createTable {
     close OUT; 
     print WOID "@warningsWOID"; 
     close WOID;
-    printCust "The Table for waived/not IDs has been created in $JiraTable!";
+    printCust "The Table for VCLP IDs has been created in $JiraTable!";
     printCust "Warnings without an ID! : $warningsWO_ID"; 
 }
 
@@ -122,3 +156,4 @@ sub createTable {
 concatAndUniq(@ARGV); 
 findWarnings;
 createTable;
+print "Have a nice day!\n";
