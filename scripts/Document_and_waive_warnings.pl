@@ -103,17 +103,22 @@ my @notWaivedWarnings; # Contains ID's of Not waived warnings
 my @waivedWarningbyMsg; # contains lines which are waived by message
 my %warningMsgHash;
 sub findWarnings {
-    # Two arguments  1) Array , 2) Array.
+    # Two arguments  1) Array , 2) Array. 3) Scalar reference
     my @waivedbyID = @{$_[0]};
     my @waivedbyMess = @{$_[1]};
+    #print "VCLP : $vclp";
     print "Finding Warnings..\n";
     foreach $line (@catFile) {
         #print "$line\n"; # prints concated file
-        if ($line =~ m/Warning:/) {
+        if ((!$vclp && $line =~ m/Warning:/) || ($vclp && $line =~ m/Warning\]/)) {
             #print "$line\n";
-            if ($line =~ /.*\((.*-\d+)\)/) {
+            if ( (!$vclp && $line =~ /.*\((.*-\d+)\)/) || ($vclp && $line =~ /.*\]\s*(.*):/)){
                 $warningNumber = $1;
                 $warningMsg = $line;
+                if ($vclp) {
+                    #print "[Info] : Parsing VCLP warnings";
+                    $captureNext=1;
+                }
                 #chomp $line;
                 #print "warningNumber : $warningNumber\n";
                 #printCust "$line";
@@ -154,7 +159,13 @@ sub findWarnings {
                 push (@warningsWOID, "$line\n");
                 #printCust ("Warning Found by no Number");
             }
+        } elsif ($captureNext==1) {
+            $captureNext=0; 
+            if ($warningHash{$warningNumber}{value} == 1) { 
+                $warningHash{$warningNumber}{Nextline} = $line; 
+            }
         }
+
     }
     #print "@waivedWarningbyMsg\n";
 }
@@ -168,7 +179,13 @@ sub createTable {
     foreach $key (keys %warningHash) {
         #print "key : $key, Count : $warningHash{$key}{value}, Message : $warningHash{$key}{Message},\n";
         if ($warningHash{$key}{waived} == 1) {
-            print OUT "|$key|$warningHash{$key}{value}|(/)| $warningHash{$key}{Message} | Waived |\n";
+             if (exists $warningHash{$key}{Nextline} && $warningHash{$key}{Nextline} eq "") { 
+                print OUT "|$key|$warningHash{$key}{value}|(/)| $warningHash{$key}{Message} | Waived |\n";
+            } elsif ($warningHash{$key}{Nextline} ne "") {
+                print OUT "|$key|$warningHash{$key}{value}|(/)| $warningHash{$key}{Nextline} | |\n";
+            } else {
+                print OUT "|$key|$warningHash{$key}{value}|(/)| $warningHash{$key}{Message} | Waived |\n"
+            }
         } else {
             print OUT "|$key|$warningHash{$key}{value}|(x)| $warningHash{$key}{Message} | |\n";
         }
@@ -256,7 +273,7 @@ sub findNotWaivedIDs {
     my $waivedVarName = $_[3];
     $breakTheLoop=0;
     foreach my $notWaived (@notWaivedWarn) {
-        print "Searching for $notWaived ....\n";
+        print "Searching for \"$notWaived\" ....\n";
         my $cnt = 0;
         foreach my $lines (@catFile) {
             chomp($lines);
@@ -279,7 +296,7 @@ sub findNotWaivedIDs {
                     chomp ($waiveIt=<STDIN>);
                     if ($waiveIt =~ /^[Yy]/) {
                         #sed -i doesnt work somehow.. :(
-                        `sed -e "/^\@$waivedVarName/a push(\@$waivedVarName,\'$notWaived\');" $packagePath > temp && mv temp $packagePath `;
+                        `sed -e "/^\@$waivedVarName/a push(\@$waivedVarName,\'${notWaived}\');" $packagePath > temp && mv temp $packagePath `;
                         print "Waived in $packagePath !\n";
                         last;
                     }
@@ -339,7 +356,7 @@ sub lines_to_add {
     require "\$packagePath";
     WaivedWarnings->import();
 END_MESSAGE
-  printCust "$message";
+  printCust ("$message","look for examples in the script");
 }
 ###########################
 # Main CODE
@@ -358,6 +375,7 @@ GetOptions( 'syn' => \$syn,
             'check_design' => \$check_design,
             'pt' => \$pt,
             'lec' => \$lec,
+            'vclp' => \$vclp,
             'jenkins' => \$jenkins) or die "Usage: $0 --lec --syn\n";
 
 # Add elsif clause to look for WaivedWarnings in particular directory
@@ -366,7 +384,7 @@ if ($syn) {
     require "$packagePath";
     WaivedWarnings->import();
 } elsif ($lec) {
-    $packagePath =  "$ENV{'N_DESIGN_DIR'}/ver_lay/lec_fmlty/rm_dc_scripts/WaivedWarnings.pm";
+    $packagePath =  "/Users/chirayushah/Downloads/svn_from_repo/ver_lay/lec_fmlty/rm_dc_scripts/WaivedWarnings.pm";
     require "$packagePath";
     WaivedWarnings->import();
 } elsif ($check_design) {
@@ -379,6 +397,11 @@ if ($syn) {
     $packagePath =  "$ENV{'N_DESIGN_DIR'}/tim/rm_pt_scripts/WaivedWarnings.pm";
     require "$packagePath";
     WaivedWarnings->import();
+} elsif ($vclp) {
+    $packagePath =  "/Users/chirayushah/Downloads/svn_from_repo/synopsys/dc/scripts/waive_scripts/WaivedWarnings.pm";
+    require "$packagePath";
+    WaivedWarnings->import();
+    #print "vclp : $vclp"
 } else {
     printCust "Warning : No known switch specified.. ";
     my $dir = getcwd;
@@ -386,13 +409,14 @@ if ($syn) {
     #printCust "Copied template from $packagePath to $dir";
     my $message = <<"END_MESSAGE";
     Next Steps  : Copy the template from $packagePath to  $dir
-                : Add following lines in $0
-                : Look for examples in script 
+                
 END_MESSAGE
-    printCust $message;
+    
+    print "$message\n";
+    print "Add following lines in $0\n";
     lines_to_add($dir);
     printCust "Also add your switch for your tool";
-    die "Usage: $0 --lec or --syn or --check_design -or --pt\n";
+    die "Usage supported: $0 --lec|--syn|--check_design|--pt|--vclp\n";
 }
 concatAndUniq(@ARGV);
 array_check(@waivedbyID);
