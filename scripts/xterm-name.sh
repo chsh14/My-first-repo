@@ -1,3 +1,3 @@
 #!/bin/bash -e
 #unalias xterm
-xterm -T "$1" -n "$1" &
+xterm -fa "Courier New" -T "$1" -n "$1" &
