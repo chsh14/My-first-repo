@@ -112,7 +112,7 @@ sub createTaskGraviton {
     description => $description,
     customfield_10531 => 'IC-5835', # Epic Link Graviton IC-Implementation
     priority => {
-        name => 'Major'
+        name => 'Critical'
     },
     fixVersions => [
         {
