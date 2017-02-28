@@ -1,3 +1,20 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'ctrlp.vim'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+
 if v:progname =~? "evim"
   finish
 endif
@@ -39,15 +56,18 @@ set ignorecase "case insensitive by default
 set smartcase "If there are CAPS go-sensitive
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
-else
-  set backup		" keep a backup file (restore to previous version)
-  set undofile		" keep an undo file (undo changes after closing)
+"else
+    "set backup		" keep a backup file (restore to previous version)
+  "set undofile		" keep an undo file (undo changes after closing)
 endif
+
+" Disable comment continuation on paste
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 set hlsearch
 "set backup
 "set backupdir=~/vim/tmp/
-set nowrap
+set wrap
 set laststatus=2
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
