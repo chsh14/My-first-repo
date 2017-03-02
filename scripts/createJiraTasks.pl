@@ -18,7 +18,36 @@ sub printCust {
     }
 }
 
+sub createTaskGluonVFP1 {
+ my $issue = $jira->create({
+    # Jira issue 'fields' hash
+    project     => {
+        key => 'NRV',
+        name => "Nano RV",
+    },
+    issuetype   => {
+        name => "Task",      # "Bug", "Task", "Sub-task", etc.
+    },
+    summary     => $summary,
+    description => $description,
+    customfield_10531 => 'NRV-241', # Epic Link
+    priority => {
+        name => 'Major'
+    },
+    'components' =>  [
+        {
+            'name' => 'Gluon-V'
+        },
+    ],
+    'assignee' => {
+        'name' => 'chsh'
+    }
+});
 
+showCreateTask($issue);
+
+
+}
 sub createTaskGluonFP1 {
     printCust "Creating task for GluonFP1..";
 
@@ -168,7 +197,8 @@ my $arg_num = scalar @ARGV;  #getopt modifies the @ARGV array
 GetOptions( \%args,
         'Glu' => \$Glu,
         'ChipInt' => \$ChipInt,
-        'GravF' => \$GravF
+        'GravF' => \$GravF,
+        'GluV' => \$GluV
     ) or die "Usage: $0 --Glu or --ChipInt or --GravF\n";
 #print "Arguments :" . $arg_num . "\n";
 if ($arg_num == 1) {
@@ -202,6 +232,8 @@ if ($arg_num == 1) {
     } elsif ($GravF) {
         # Call GravitonFinal;
         createTaskGraviton
+    } elsif ($GluV) {
+        createTaskGluonVFP1
     } else {
         printCust "Better Luck next time $USER..!";
     }
