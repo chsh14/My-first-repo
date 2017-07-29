@@ -5,6 +5,7 @@ use JIRA::Client::Automated;
 use Data::Dumper qw(Dumper);
 use Getopt::Long qw(GetOptions);
 use Term::ANSIColor qw(:constants);
+$ENV{'PERL_LWP_SSL_VERIFY_HOSTNAME'} = 0;
 
 sub printCust {
     if (exists $_[1]) {
@@ -186,7 +187,7 @@ sub showCreateTask {
 }
 
 
-$url="http://projecttools.nordicsemi.no/jira";
+$url="https://projecttools.nordicsemi.no/jira";
 $user="chsh";
 $password="$ENV{'PASSWORD'}";
 $jira = JIRA::Client::Automated->new($url, $user, $password);

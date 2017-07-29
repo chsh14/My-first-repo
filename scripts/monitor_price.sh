@@ -1,7 +1,7 @@
-#!/bin/bash -e 
+#!/bin/bash -e
 
 URL_adidas=(http://www.adidas.no/terrex-swift-r-mid-gtx-shoes/BA9943.html http://www.adidas.com/us/terrex-swift-r-gtx-shoes/BZ0605.html)
-URL_nike=(https://store.nike.com/no/en_gb/pd/dry-element-long-sleeve-running-top/pid-10294032/pgid-11102614 https://store.nike.com/no/en_gb/pd/dry-academy-1-4-zip-football-drill-top/pid-11113012/pgid-11543879)
+URL_nike=(https://store.nike.com/no/en_gb/pd/dry-academy-1-4-zip-football-drill-top/pid-11113012/pgid-11543879 https://store.nike.com/us/en_us/pd/dry-academy-mens-1-4-zip-soccer-drill-top/pid-11316902/pgid-11896250 https://store.nike.com/us/en_us/pd/air-max-infuriate-low-mens-basketball-shoe/pid-11596020/pgid-11621631)
 
 
 
@@ -12,13 +12,13 @@ check_adidas() {
     standard_price_exists=$(curl -s "$i" | perl -nle 'print for m:data-standard-price=\"(.*)\":')
     #echo "standard_price_exists = ${standard_price_exists}"
     if [ ! -z ${standard_price_exists} ]; then
-        standard_price=$(curl -s "$i" | perl -nle 'print for m:data-standard-price=\"(.*)\":') 
+        standard_price=$(curl -s "$i" | perl -nle 'print for m:data-standard-price=\"(.*)\":')
         echo "$i is on SALE right now!!"
-        echo "item : $i , sale_price : $sale_price , standard_price : $standard_price " | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com" 
+        echo "item : $i , sale_price : $sale_price , standard_price : $standard_price " | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com"
         #send email about the sale
     else
         echo "Current price for $i :  ${sale_price}"
-    fi 
+    fi
 
 }
 
@@ -32,20 +32,20 @@ check_nike() {
         standard_price=$(curl -s "$i" | perl -nle 'print for m:overridden-local-price.*>(.*)<:')
         echo "$i is on SALE right now!!"
         echo "item : $i , sale_price : $price , standard_price : $standard_price " | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com"
-    else 
+    else
         echo "Current price of $i: ${price}"
     fi
 
 }
 
 printCust () {
- 
+
  echo "----------------------------------------------------------"
  printf "%s\n" "$1"
  echo "----------------------------------------------------------"
 
 
-} 
+}
 
 #for z in ${URL_adidas[@]}
 #do
@@ -68,4 +68,4 @@ for i in ${URL[@]}; do
         check_adidas $i
     fi
 
-done 
+done
