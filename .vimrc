@@ -4,38 +4,38 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-
-" let Vundle manage Vundle, required
+"
+" " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-
+"
 Plugin 'ctrlp.vim'
+"
+Plugin 'verilog_systemverilog.vim'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+Plugin 'perl-support.vim'
 
-
-if v:progname =~? "evim"
-  finish
-endif
-
-set history=700
-
-"Color options
+Plugin 'upf.vim'
+" " All of your Plugins must be added before the following line
+ call vundle#end()            " required
 syntax enable
-colorscheme distinguished
-set background=dark
 
+filetype plugin indent on    " required
+"Color options
+syntax on
+set history=700
+autocmd BufNewFile,BufRead *.sv,*.v,*.vh set filetype=verilog_systemverilog
+autocmd BufRead,BufNewFile *.upf setfiletype upf
+"gzip files
+"autocmd BufRead *.gz call gzip#read("gzip -dn")
 set t_Co=256
 set showmode
 
-set autoindent
 set smartindent
 set backspace=eol,start,indent
 set autoread "auto updated the current buffer with the updated contents
 
 " Spaces and tabs
-set expandtab "tabs are spaces
+set expandtab "tabs are NOT spaces
 set tabstop=4 "number of visual spaces per TAB
 set softtabstop=4   " number of spaces in tab when editing
 set shiftwidth=4 " Auto indent amount when using >> or <<
@@ -45,34 +45,27 @@ set virtualedit=all "ability to walk through the empty area of the file in norma
 set ruler " always show current position along the bottom
 set number "turn on line numbers
 set showcmd " show commandn in bottom bar
-set cursorline          " highlight current line
-filetype indent on      " load language -specific indent files:.vim/indent
+"filetype indent on      " load language -specific indent files:.vim/indent
 set wildmenu            " visual autocomplete for command menu
+set wildmode=list:longest
 set showmatch           " highlight matching [{()}]
 set cpoptions+=$ "put a dollar sign when using c command or r or s
 
 " Text Formating/Layout
 set ignorecase "case insensitive by default
 set smartcase "If there are CAPS go-sensitive
-if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
-"else
-    "set backup		" keep a backup file (restore to previous version)
-  "set undofile		" keep an undo file (undo changes after closing)
-endif
-
-" Disable comment continuation on paste
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
-set hlsearch
-"set backup
+set hlsearch  " highlight search terms
+set incsearch " show search matches as you type
+set nobackup
 "set backupdir=~/vim/tmp/
 set wrap
 set laststatus=2
-" In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
-  set mouse=a
-endif
+
+" Disable comment continuation on paste
+"autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+"
+" Focus follow mouse Use SHIFT for external copying
+set mouse=a
 
 " CUSTOM Mappings (the 'nor' in any mapping keyword means nonrecursive
 " inorder to use <leader> before any mappings
@@ -84,7 +77,7 @@ xnoremap p "_dP
 "replaces doing v"0p with only p
 
 "mapping F2 key to toggle the paste option (only in normal mode)
-nnoremap <F2> :set invpaste paste?<CR>
+vnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2> " This will toggle the paste mode. the noformat paste will only work when the paste mode is on
 set showmode "This will show the paste mode or not
 
@@ -102,6 +95,36 @@ nnoremap <leader>ev :e $MYVIMRC<cr>
 
 "toggle numbers-> nonumbers
 nnoremap <leader>n :set invnumber<cr>
+
+"Get the file name
+nnoremap <leader>fname :echo @%<cr>
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = {
+            \ 'dir': '\v[\/]\.(git|doc|svn)$'
+            \}
+let g:ctrlp_max_files = 0
+let g:ctrlp_cmd = 'CtrlP'
+noremap <leader>s :CtrlP<CR>
+noremap <leader>v :CtrlP /$VC_WORKSPACE/<CR>
+noremap <leader>b :CtrlPBuffer<CR>
+noremap <leader>l : CtrlPLine<CR>
+noremap <leader>m :CtrlPMixed<CR>
+set shellslash
+
+"let g:ctrlp_root_markers = ['.ctrlp']
+"let g:ctrlp_follow_symlinks = 1
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+
+let g:ctrlp_clear_cache_on_exit = 0
+" open in background
+let g:ctrlp_open_multiple_files = 'i'
+let g:ctrlp_match_window = 'min:4,max:72:results:20'
+if executable("ag")
+    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+endif
+"if executable('grep')
+"      let g:ctrlp_user_command = 'grep %s -l ""'
+"endif
 " set list listchars=trail:_
 " set listchars=tab:·\ ,trail:·,extends:»,precedes:«
 " :highlight SpecialKey ctermfg=darkgrey ctermbg=yellow
@@ -109,13 +132,32 @@ nnoremap <leader>n :set invnumber<cr>
 autocmd FileType make setlocal noexpandtab
 " Remove extra spaces before saving
 autocmd BufWritePre * %s/\s\+$//e
-"Color options
-syntax enable
+
 colorscheme mustang_vim_colorscheme_by_hcalves
 "set background=dark
 "
 set cursorline          " highlight current line
 hi CursorLine term=bold cterm=bold guibg=Grey40
+
+
+
+inoremap <Esc>Oq 1
+inoremap <Esc>Or 2
+inoremap <Esc>Os 3
+inoremap <Esc>Ot 4
+inoremap <Esc>Ou 5
+inoremap <Esc>Ov 6
+inoremap <Esc>Ow 7
+inoremap <Esc>Ox 8
+inoremap <Esc>Oy 9
+inoremap <Esc>Op 0
+inoremap <Esc>On .
+inoremap <Esc>OQ /
+inoremap <Esc>OR *
+inoremap <Esc>Ol +
+inoremap <Esc>OS -
+inoremap <Esc>OM <Enter>
+
 
 " " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -147,7 +189,23 @@ if has("autocmd")
 
 else
 
-  set autoindent		" always set autoindenting on
+  set autoindent        " always set autoindenting on
 
 endif " has("autocmd")
+" Undo after file write
+if has('persistent_undo')      "check if your vim version supports it
+    set undofile                 "turn on the feature
+    set undodir=$HOME/.vim/undo  "directory where the undo files will be stored
+endif
+
+" Searching between module-endmodule in verilog (From ARNE)
+nnoremap <F8> mc?module<CR>mb/endmodule<CR>me`c<BS>/\%>'b\%<'e
+vnoremap <F8> y<Esc>mc?module<CR>mb/endmodule<CR>me`c<BS>/\%>'b\%<'e<C-r>0
+
+"search for selected text (visual mode) (hint: v... works in both visual and select mode, use x for only visual mode...)
+vnoremap / y<ESC>/<C-r>0
+vnoremap ? y<ESC>?<C-r>0
+
+"Ignore white space in vimdiff
+set diffopt+=iwhite
 
