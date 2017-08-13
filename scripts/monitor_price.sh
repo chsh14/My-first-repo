@@ -7,7 +7,7 @@ URL_nike=(https://store.nike.com/no/en_gb/pd/dry-academy-1-4-zip-football-drill-
 
 check_adidas() {
     i=$1
-    printCust "Checking $i"    
+    #printCust "Checking $i"    
     sale_price=$(curl  --connect-timeout 120 -s "$i" | perl -nle 'print for m:data-sale-price=\"(.*)\"\s:')
     standard_price_exists=$(curl  -s "$i" --connect-timeout 120 | perl -nle 'print for m:data-standard-price=\"(.*)\":')
     #echo "standard_price_exists = ${standard_price_exists}"
@@ -27,7 +27,7 @@ check_adidas() {
 
 check_nike() {
     i=$1
-    printCust "checking $i"
+    #printCust "checking $i"
     price=$(curl --connect-timeout 120 -s "$i"  | perl -nle 'print for m:product\:price\:am.*content=\"(.*)\":')
     #echo "$price"
     is_on_sale=$(curl -s "$i" | perl -nle 'print for m:span class.*product-on-sale:')    
