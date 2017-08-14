@@ -7,14 +7,14 @@ URL_nike=(https://store.nike.com/no/en_gb/pd/dry-academy-1-4-zip-football-drill-
 
 check_adidas() {
     i=$1
-    #printCust "Checking $i"    
+    #printCust "Checking $i"
     sale_price=$(curl  --connect-timeout 120 -s "$i" | perl -nle 'print for m:data-sale-price=\"(.*)\"\s:')
     standard_price_exists=$(curl  -s "$i" --connect-timeout 120 | perl -nle 'print for m:data-standard-price=\"(.*)\":')
     #echo "standard_price_exists = ${standard_price_exists}"
     if [ ! -z ${standard_price_exists} ]; then
         standard_price=$(curl -s "$i" | perl -nle 'print for m:data-standard-price=\"(.*)\":')
         echo "$i is on SALE right now!!"
-        
+
         echo "item : $i , sale_price : $sale_price , standard_price : $standard_price " | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com"
         #send email about the sale
     elif [[ ${sale_price} == "" ]]; then
@@ -30,7 +30,7 @@ check_nike() {
     #printCust "checking $i"
     price=$(curl --connect-timeout 120 -s "$i"  | perl -nle 'print for m:product\:price\:am.*content=\"(.*)\":')
     #echo "$price"
-    is_on_sale=$(curl -s "$i" | perl -nle 'print for m:span class.*product-on-sale:')    
+    is_on_sale=$(curl -s "$i" | perl -nle 'print for m:span class.*product-on-sale:')
     #status=$?
     #echo "$is_on_sale , $status"
     #echo "price: $price"
@@ -41,7 +41,7 @@ check_nike() {
     elif [[  x${price} == "x" ]]; then
         echo "Price Not exists.. removed?"
         echo "Item returned null.. Doesnt exist anymore" | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com"
-    else         
+    else
         echo "Current price of $i: ${price}"
     fi
 
@@ -57,11 +57,11 @@ check_global_sale() {
     global_no_sale=$(curl -s "${nike_no}" | grep -ci "headline.*sale")
     if [[ $global_us_sale_exists > 0 ]]; then
         content=$(curl -s "${nike_us}" | grep -i "headline.*sale")
-        printCust "${nike_us}:""\n""$content" 
+        printCust "${nike_us}:""\n""$content"
     else
-        echo "No sale found"
+        printCust "${nike_us} No sale found"
     fi
-    
+
     if [[ $global_no_sale > 0 ]]; then
         content=$(curl -s "${nike_no}" | grep -i "headline.*sale")
         printCust "Nike content: \n $content"
@@ -74,11 +74,11 @@ check_global_sale() {
         printCust "Levi content: \n $content"
     else
         printCust "${levi_us} No sale found.."
-    fi     
+    fi
 
 }
 
-printCust () {                               
+printCust () {
 
  echo "----------------------------------------------------------"
  printf "%s\n" "$1"
