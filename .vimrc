@@ -15,6 +15,9 @@ Plugin 'verilog_systemverilog.vim'
 Plugin 'perl-support.vim'
 
 Plugin 'upf.vim'
+
+Bundle 'bash-support.vim'
+
 " " All of your Plugins must be added before the following line
  call vundle#end()            " required
 syntax enable
@@ -208,4 +211,15 @@ vnoremap ? y<ESC>?<C-r>0
 
 "Ignore white space in vimdiff
 set diffopt+=iwhite
+
+
+
+let g:BASH_AuthorName   = 'Chirayu Shah'
+let g:BASH_Email        = 'chsh'
+let g:BASH_Organization      = 'Open Source Corporation'
+
+
+
+
+
 
