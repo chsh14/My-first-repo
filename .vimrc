@@ -140,7 +140,7 @@ colorscheme mustang_vim_colorscheme_by_hcalves
 "set background=dark
 "
 set cursorline          " highlight current line
-hi CursorLine term=bold cterm=bold guibg=Grey40
+hi CursorLine term=bold cterm=NONE guibg=darkred guifg=white
 
 
 
@@ -214,9 +214,6 @@ set diffopt+=iwhite
 
 
 
-let g:BASH_AuthorName   = 'Chirayu Shah'
-let g:BASH_Email        = 'chsh'
-let g:BASH_Organization      = 'Open Source Corporation'
 
 
 

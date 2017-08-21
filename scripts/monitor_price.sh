@@ -6,6 +6,9 @@ URL_nike=(https://store.nike.com/no/en_gb/pd/dry-academy-1-4-zip-football-drill-
 
 
 
+#-------------------------------------------------------------------------------
+# check for the adidas items
+#-------------------------------------------------------------------------------
 check_adidas() {
     i=$1
     #printCust "Checking $i"
@@ -54,7 +57,7 @@ check_global_sale() {
     nike_no=https://www.nike.com/no/en_gb/
     levi_us=http://www.levi.com/US/en_US/
     global_us_sale_exists=$(curl -s "${nike_us}" | grep -ci "headline.*sale")
-    global_levi_sale_exists=$(curl -s "${nike_us}" | pcregrep -cM 'promodetail.*\n.*bullet-banner.*\n.*span.*sale')
+    global_levi_sale_exists=$(curl -s "${nike_us}" | pcregrep -ciM 'promodetail.*\n.*bullet-banner.*\n.*span.*sale')
     global_no_sale=$(curl -s "${nike_no}" | grep -ci "headline.*sale")
     if [[ $global_us_sale_exists > 0 ]]; then
         content=$(curl -s "${nike_us}" | grep -i "headline.*sale")
