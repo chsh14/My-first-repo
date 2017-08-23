@@ -56,9 +56,9 @@ check_global_sale() {
     nike_us=https://www.nike.com/us/en_us/
     nike_no=https://www.nike.com/no/en_gb/
     levi_us=http://www.levi.com/US/en_US/
-    global_us_sale_exists=$(curl -s "${nike_us}" | grep -ci "headline.*sale")
-    global_levi_sale_exists=$(curl -s "${nike_us}" | pcregrep -ciM 'promodetail.*\n.*bullet-banner.*\n.*span.*sale')
-    global_no_sale=$(curl -s "${nike_no}" | grep -ci "headline.*sale")
+    global_us_sale_exists=$(curl -s "${nike_us}" | grep -ciP "headline.*(sale|extra)")
+    global_levi_sale_exists=$(curl -s "${levi_us}" | pcregrep -ciM 'promodetail.*\n.*bullet-banner.*\n.*span.*')
+    global_no_sale=$(curl -s "${nike_no}" | grep -ci "headline.*(sale|extra)")
     if [[ $global_us_sale_exists > 0 ]]; then
         content=$(curl -s "${nike_us}" | grep -i "headline.*sale")
         printCust "${nike_us}:""\n""$content"
@@ -73,8 +73,8 @@ check_global_sale() {
         printCust "${nike_no} No sale found.."
     fi
 
-    if [[ $global_levi_sale_exists > 0 ]]; then
-        content=$(curl -s "${levi_us}" | pcregrep -M 'promodetail.*\n.*bullet-banner.*\n.*span.*sale')
+    if [[ $global_levi_sale_exists > 1 ]]; then
+        content=$(curl -s "${levi_us}" | pcregrep -M 'promodetail.*\n.*bullet-banner.*\n.*span.*')
         printCust "Levi content: \n $content"
     else
         printCust "${levi_us} No sale found.."
