@@ -1,0 +1,83 @@
+snippet date
+${2:${1:`date +%d`}.`date +%m`}.`date +%Y`
+endsnippet
+
+snippet comment "insert comments" b
+#-------------------------------------------------------------------------------
+#[chsh: ${1}] :
+#-------------------------------------------------------------------------------
+endsnippet
+
+
+snippet proc_snps_in_out "synopsys proc with arguments" b
+proc $1 {args} {
+
+    parse_proc_arguments -args $args results
+
+     if {[info exists results(-output)]} {
+        set ::file $results(-output)
+    }
+     if {[info exists results(-input)]} {
+        set inF $results(-input)
+    }
+
+    set example [info exists results(-example)]
+    if {$example} {
+        usage
+        return 1
+    }
+
+    if {[file exists $::file]} {
+        puts "File $file already exists deleting.."
+        file delete -force $file
+    }
+
+}
+
+
+
+define_proc_attributes $1 \
+        -info           "Searches voltages given with -input and creates set_voltage file given by -output " \
+        -define_args    {
+            {-example "Required - Shows you how to use the script" "" boolean required}
+            {-input "Required- input string or file" "<string or upf file name. ex : *.mapped.upf , \"DVDD_OV9\">" string required}
+            {-output "Required- output voltage file" "<output>" string required}
+
+        } \
+        -define_arg_groups {
+            {exclusive {-example -input}}
+            {exclusive {-example -output}}
+            {together {-input -output}}
+        }
+endsnippet
+
+snippet proc_format "create a custom print proc" b
+proc formatOutput {inStr1 {inStr2 ""}} {
+    puts "----------------------------------------"
+    puts [format "%s,%s" $inStr1 $inStr2]
+    puts "----------------------------------------"
+}
+endsnippet
+
+
+snippet header "create header" b
+#===============================================================================
+#
+#         FILE: `!v expand('%:t')`
+#
+#        USAGE: source `!v expand('%:t')`; `!v expand('%:r')` --example
+#
+#  DESCRIPTION:
+#
+#      OPTIONS: ---
+# REQUIREMENTS: ---
+#         BUGS: ---
+#        NOTES: ---
+#       AUTHOR: `echo $USER`(),
+# ORGANIZATION:
+#      VERSION: 1.0
+#      CREATED: `!v strftime("%c")`
+#     REVISION: ---
+#===============================================================================
+
+endsnippet

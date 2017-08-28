@@ -18,6 +18,8 @@ Plugin 'upf.vim'
 
 Bundle 'bash-support.vim'
 
+Plugin 'SirVer/ultisnips'
+
 " " All of your Plugins must be added before the following line
  call vundle#end()            " required
 syntax enable
@@ -211,6 +213,15 @@ vnoremap ? y<ESC>?<C-r>0
 
 "Ignore white space in vimdiff
 set diffopt+=iwhite
+
+
+"UltiSnippets
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 
 

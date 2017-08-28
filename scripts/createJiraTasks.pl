@@ -5,6 +5,8 @@ use JIRA::Client::Automated;
 use Data::Dumper qw(Dumper);
 use Getopt::Long qw(GetOptions);
 use Term::ANSIColor qw(:constants);
+
+
 $ENV{'PERL_LWP_SSL_VERIFY_HOSTNAME'} = 0;
 
 sub printCust {
@@ -206,11 +208,14 @@ if ($arg_num == 1) {
     printCust "Pls Enter Summary [Required] :";
     print "Summary :";
     chomp ($summary=<>);
-    printCust "Pls Enter Description [Optional] :";
+    printCust "Pls Enter Description [Optional] [type END to exit]:";
     print "Description: ";
-    $description=<STDIN>;
+    while (<STDIN>) {
+        last if /^END$/;
+        $description .= $_;
+    }
     chomp $description;
-    if ($description eq '') {
+    if ($description eq "") {
         #print "Description Empty";
         $description = "Pls Enter the description";
     }
