@@ -29,6 +29,9 @@ check_adidas() {
 
 }
 
+#-------------------------------------------------------------------------------
+# check for nike items
+#-------------------------------------------------------------------------------
 check_nike() {
     i=$1
     #printCust "checking $i"
@@ -56,29 +59,69 @@ check_global_sale() {
     nike_us=https://www.nike.com/us/en_us/
     nike_no=https://www.nike.com/no/en_gb/
     levi_us=http://www.levi.com/US/en_US/
+    adidas_no=http://www.adidas.no/men-originals-shoes
     global_us_sale_exists=$(curl -s "${nike_us}" | grep -ciP "headline.*(sale|extra)")
     global_levi_sale_exists=$(curl -s "${levi_us}" | pcregrep -ciM 'promodetail.*\n.*bullet-banner.*\n.*span.*')
     global_no_sale=$(curl -s "${nike_no}" | grep -ci "headline.*(sale|extra)")
-    if [[ $global_us_sale_exists > 0 ]]; then
-        content=$(curl -s "${nike_us}" | grep -i "headline.*sale")
-        printCust "${nike_us}:""\n""$content"
+    global_adidas_sale=$(curl -s "${adidas_no}" | grep -ci "callout-overlay-content" )
+
+
+    check_sale $nike_us $global_us_sale_exists 0 "grep -i \"headline.*sale\""
+
+    check_sale $nike_no $global_no_sale 0 "grep -i \"headline.*sale\""
+
+    check_sale $levi_us $global_levi_sale_exists 1 "pcregrep -iM 'promodetail.*\n.*bullet-banner.*\n.*span.*'"
+
+    check_sale $adidas_no $global_no_sale 6 "grep -i \"callout-overlay-content\""
+
+    #if [[ $global_us_sale_exists > 0 ]]; then
+    #    content=$(curl -s "${nike_us}" | grep -i "headline.*sale")
+    #    printCust "${nike_us}:""\n""$content"
+    #else
+    #    printCust "${nike_us} No sale found"
+    #fi
+
+    #if [[ $global_no_sale > 0 ]]; then
+    #    content=$(curl -s "${nike_no}" | grep -i "headline.*sale")
+    #    printCust "Nike content: \n $content"
+    #else
+    #    printCust "${nike_no} No sale found.."
+    #fi
+
+    #if [[ $global_levi_sale_exists > 0 ]]; then
+    #    content=$(curl -s "${levi_us}" | pcregrep -M 'promodetail.*\n.*bullet-banner.*\n.*span.*promo')
+    #    printCust "Levi content: \n $content"
+    #else
+    #    printCust "${levi_us} No sale found.."
+    #fi
+
+    #if [[ $global_adidas_sale > 6 ]]; then
+    #    content=$(curl -s "${adidas_no}" | grep -i "callout-overlay-content")
+    #    printCust "Adidas content: \n $content"
+    #else
+    #    printCust "${adidas_no} No sale found.."
+    #fi
+
+}
+
+
+check_sale () {
+    site_name=$1
+    search_variable=$2
+    search_var_cnt=$3
+    search_string=$4
+    #echo "search_variable: $search_variable,  search_var_cnt : $search_var_cnt"
+    #echo "search_string $search_string"
+    command="curl -s $site_name | ${search_string}"
+    #echo "$command"
+    if [[ $search_variable > ${search_var_cnt}  ]]; then
+        content=$(eval "$command")
+        #content=$(curl -s "${site_name}" | grep -i "${search_string}")
+        printCust "${site_name}: \n $content"
     else
-        printCust "${nike_us} No sale found"
+        printCust "${site_name} : No sale found"
     fi
 
-    if [[ $global_no_sale > 0 ]]; then
-        content=$(curl -s "${nike_no}" | grep -i "headline.*sale")
-        printCust "Nike content: \n $content"
-    else
-        printCust "${nike_no} No sale found.."
-    fi
-
-    if [[ $global_levi_sale_exists > 1 ]]; then
-        content=$(curl -s "${levi_us}" | pcregrep -M 'promodetail.*\n.*bullet-banner.*\n.*span.*')
-        printCust "Levi content: \n $content"
-    else
-        printCust "${levi_us} No sale found.."
-    fi
 
 }
 
