@@ -2,7 +2,7 @@
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 URL_adidas=(http://www.adidas.no/terrex-swift-r-mid-gtx-shoes/BA9943.html)
-URL_nike=(https://store.nike.com/no/en_gb/pd/dry-academy-1-4-zip-football-drill-top/pid-11113012/pgid-11543879 https://store.nike.com/us/en_us/pd/air-max-infuriate-low-mens-basketball-shoe/pid-11596020/pgid-11621631 https://store.nike.com/us/en_us/pd/air-max-infuriate-mid-mens-basketball-shoe/pid-11833469/pgid-11937991 https://store.nike.com/us/en_us/pd/dry-academy-mens-1-4-zip-soccer-drill-top/pid-11316902/pgid-12229191 https://store.nike.com/us/en_us/pd/dry-academy-mens-soccer-top/pid-11181846/pgid-11455365 https://store.nike.com/us/en_us/pd/dri-fit-knit-mens-long-sleeve-running-top/pid-11525483/pgid-11463528 https://store.nike.com/us/en_us/pd/dri-fit-cushion-crew-training-socks-large-6-pair/pid-10032697/pgid-11042787)
+URL_nike=(https://store.nike.com/no/en_gb/pd/dry-academy-1-4-zip-football-drill-top/pid-11113012/pgid-11543879 https://store.nike.com/us/en_us/pd/air-max-infuriate-low-mens-basketball-shoe/pid-11596020/pgid-11621631 https://store.nike.com/us/en_us/pd/air-max-infuriate-mid-mens-basketball-shoe/pid-11833469/pgid-11937991 https://store.nike.com/us/en_us/pd/dry-academy-mens-1-4-zip-soccer-drill-top/pid-11316902/pgid-12229191 https://store.nike.com/us/en_us/pd/dry-academy-mens-soccer-top/pid-11181846/pgid-11455365 https://store.nike.com/us/en_us/pd/dri-fit-knit-mens-long-sleeve-running-top/pid-11525483/pgid-11463528 https://store.nike.com/us/en_us/pd/dri-fit-cushion-crew-training-socks-large-6-pair/pid-10032697/pgid-11042787 https://store.nike.com/no/en_gb/pd/dry-academy-1-4-zip-football-drill-top/pid-11316902/pgid-11543879)
 
 
 
