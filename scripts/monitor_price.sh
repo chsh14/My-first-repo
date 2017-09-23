@@ -22,7 +22,7 @@ check_adidas() {
         echo "item : $i , sale_price : $sale_price , standard_price : $standard_price " | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com"
         #send email about the sale
     elif [[ ${sale_price} == "" ]]; then
-        echo "Item returned null.. Doesnt exist anymore" | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com"
+        echo "$i : Item returned null.. Doesnt exist anymore" | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com"
     else
         echo "Current price for $i :  ${sale_price}"
     fi
@@ -35,19 +35,19 @@ check_adidas() {
 check_nike() {
     i=$1
     #printCust "checking $i"
-    price=$(curl --connect-timeout 120 -s "$i"  | perl -nle 'print for m:product\:price\:am.*content=\"(.*)\":')
+    price=$(curl --connect-timeout 120 -sL "$i"  | perl -nle 'print for m:product\:price\:am.*content=\"(.*)\":')
     #echo "$price"
-    is_on_sale=$(curl -s "$i" | perl -nle 'print for m:span class.*product-on-sale:')
+    is_on_sale=$(curl -sL "$i" | perl -nle 'print for m:span class.*product-on-sale:')
     #status=$?
     #echo "$is_on_sale , $status"
     #echo "price: $price"
     if [[ ${is_on_sale} == 1 ]]; then
-        standard_price=$(curl -s "$i" | perl -nle 'print for m:overridden-local-price.*>(.*)<:')
+        standard_price=$(curl -sL "$i" | perl -nle 'print for m:overridden-local-price.*>(.*)<:')
         echo "$i is on SALE right now!!"
         echo "item : $i , sale_price : $price , standard_price : $standard_price " | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com"
     elif [[  x${price} == "x" ]]; then
-        echo "Price Not exists.. removed?"
-        echo "Item returned null.. Doesnt exist anymore" | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com"
+        echo "$i: Price Not exists.. removed?"
+        echo "$i: Item returned null.. Doesnt exist anymore" | mail -s "[chsh] SALE notification service " "chirayu.shah14@gmail.com"
     else
         echo "Current price of $i: ${price}"
     fi
