@@ -56,19 +56,23 @@ check_nike() {
 
 
 check_global_sale() {
-    nike_us=https://www.nike.com/us/en_us/
+    nike_us=https://www.nike.com/us/en_us/c/men
     nike_no=https://www.nike.com/no/en_gb/
     levi_us=http://www.levi.com/US/en_US/
-    adidas_no=http://www.adidas.no/men-originals-shoes
+    #adidas_no=http://www.adidas.no/originals-sko
     global_us_sale_exists=$(curl -s "${nike_us}" | grep -ciP "headline.*(sale|extra)")
+    #echo "1"
     global_levi_sale_exists=$(curl -s "${levi_us}" | pcregrep -ciM 'promodetail.*\n.*bullet-banner.*\n.*span.*')
-    global_no_sale=$(curl -s "${nike_no}" | grep -ci "headline.*(sale|extra)")
-    global_adidas_sale=$(curl -s "${adidas_no}" | grep -ci "callout-overlay-content" )
+    #echo "2"
+    global_no_sale=$(curl -s "${nike_no}" | grep -ciP "headline.*(sale|extra)")
+    #echo "3"
+    global_adidas_sale=$(curl -sL "${adidas_no}" | grep -ci "callout-overlay-content" )
+    #echo "4"
 
 
-    check_sale $nike_us $global_us_sale_exists 0 "grep -i \"headline.*sale\""
+    check_sale $nike_us $global_us_sale_exists 0 "grep -iP \"headline.*(sale|extra)\""
 
-    check_sale $nike_no $global_no_sale 0 "grep -i \"headline.*sale\""
+    check_sale $nike_no $global_no_sale 0 "grep -iP \"headline.*(sale|extra)\""
 
     check_sale $levi_us $global_levi_sale_exists 1 "pcregrep -iM 'promodetail.*\n.*bullet-banner.*\n.*span.*'"
 
@@ -110,9 +114,9 @@ check_sale () {
     search_variable=$2
     search_var_cnt=$3
     search_string=$4
-    #echo "search_variable: $search_variable,  search_var_cnt : $search_var_cnt"
+    echo "search_variable: $search_variable,  search_var_cnt : $search_var_cnt"
     #echo "search_string $search_string"
-    command="curl -s $site_name | ${search_string}"
+    command="curl -sL $site_name | ${search_string}"
     #echo "$command"
     if [[ $search_variable > ${search_var_cnt}  ]]; then
         content=$(eval "$command")
