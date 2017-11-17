@@ -177,6 +177,56 @@ sub createTaskGraviton {
 showCreateTask($issue);
 }
 
+sub createTaskYodaMPW3 {
+  my $issue = $jira->create({
+    # Jira issue 'fields' hash
+    project     => {
+        key => 'YODA',
+        name => 'Yoda',
+    },
+    issuetype   => {
+        name => "Task",      # "Bug", "Task", "Sub-task", etc.
+    },
+    summary     => $summary,
+    description => $description,
+    customfield_10531 => 'YODA-1437', # Epic Link Graviton IC-Implementation
+    priority => {
+        name => 'Critical'
+    },
+    fixVersions => [
+        {
+            'name' => 'Yoda GS Proto3'
+        },
+        {
+            'name' => $RTL_LAY
+        }
+    ],
+    'components' =>  [
+        {
+           'name' => 'Chip Integration'
+        }
+    ],
+    'assignee' => {
+        'name' => 'chsh'
+    },
+    'customfield_10332' => {     #Disipline
+        'value' => 'Digital'
+    },
+    'labels' => [
+           'TeamAtomIC'
+    ],
+    customfield_11035 => [
+        {      #Product
+        'value' => 'Yoda FP1'
+        }
+    ]
+});
+#print Dumper $issue;
+showCreateTask($issue);
+
+}
+
+
 sub showCreateTask {
     my %hash = %{$_[0]}; #passing hashref
     $self = $hash{'self'};
@@ -201,13 +251,22 @@ GetOptions( \%args,
         'Glu' => \$Glu,
         'ChipInt' => \$ChipInt,
         'GravF' => \$GravF,
-        'GluV' => \$GluV
+        'GluV' => \$GluV,
+        'YodaMPW3' => \$YodaMPW3
     ) or die "Usage: $0 --Glu or --ChipInt or --GravF\n";
 #print "Arguments :" . $arg_num . "\n";
 if ($arg_num == 1) {
     printCust "Pls Enter Summary [Required] :";
     print "Summary :";
     chomp ($summary=<>);
+    if ($YodaMPW3) {
+        $elaborateWarnings = "DoD:
+  1) Fix the above warning
+  2) Check the jenkins logs and confirm its fixed
+  3) Close the task or reassign to the next responsible";
+        $RTL_LAY="RTL2";
+        $description = $elaborateWarnings;
+    } else {
     printCust "Pls Enter Description [Optional] [type END to exit]:";
     print "Description: ";
     while (<STDIN>) {
@@ -215,6 +274,7 @@ if ($arg_num == 1) {
         $description .= $_;
     }
     chomp $description;
+    }
     if ($description eq "") {
         #print "Description Empty";
         $description = "Pls Enter the description";
@@ -240,6 +300,8 @@ if ($arg_num == 1) {
         createTaskGraviton
     } elsif ($GluV) {
         createTaskGluonVFP1
+    } elsif ($YodaMPW3) {
+       createTaskYodaMPW3
     } else {
         printCust "Better Luck next time $USER..!";
     }

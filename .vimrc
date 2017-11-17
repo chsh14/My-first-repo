@@ -18,8 +18,7 @@ Plugin 'upf.vim'
 
 Bundle 'bash-support.vim'
 
-Plugin 'SirVer/ultisnips'
-
+Plugin 'UltiSnips'
 " " All of your Plugins must be added before the following line
  call vundle#end()            " required
 syntax enable
@@ -118,14 +117,17 @@ set shellslash
 
 "let g:ctrlp_root_markers = ['.ctrlp']
 "let g:ctrlp_follow_symlinks = 1
+"let g:ctrlp_root_markers = ['.dogitworkspace']
 let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-
+let g:ctrlp_max_height = 15
+let g:ctrlp_regexp = 1
 let g:ctrlp_clear_cache_on_exit = 0
 " open in background
 let g:ctrlp_open_multiple_files = 'i'
-let g:ctrlp_match_window = 'min:4,max:72:results:20'
+"let g:ctrlp_match_window = 'min:4,max:72:results:20'
 if executable("ag")
-    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+    set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -f -l --nocolor --path-to-ignore ~/.agignore -g ""'
 endif
 "if executable('grep')
 "      let g:ctrlp_user_command = 'grep %s -l ""'
@@ -198,9 +200,14 @@ else
 
 endif " has("autocmd")
 " Undo after file write
+let vimDir = '$HOME/.vim'
 if has('persistent_undo')      "check if your vim version supports it
+    let myUndoDir = expand(vimDir . '/undodir')
+    call system('mkdir ' . myUndoDir)
+    let &undodir = myUndoDir
     set undofile                 "turn on the feature
-    set undodir=$HOME/.vim/undo  "directory where the undo files will be stored
+    set undolevels=1000
+    set undoreload=10000
 endif
 
 " Searching between module-endmodule in verilog (From ARNE)
