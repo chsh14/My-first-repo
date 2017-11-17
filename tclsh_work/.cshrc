@@ -5,6 +5,9 @@
 #else
 #  exit 0
 #endif
+alias ,ec 'vim ~/.cshrc' # alias to open the cshrc file
+alias ,sc 'source ~/.cshrc' #alias to source the cshrc file
+setenv PRINTER "xeroxtrh1"
 setenv PRINTER "minlaser"
 
 setenv TOOLS ""
@@ -15,6 +18,8 @@ source /n/bin/cshrc.rc
 #
 bindkey ^r i-search-back
 bindkey ^n i-search-fwd
+bindkey -k up history-search-backward # Arrow keys used to cycle through the history
+bindkey -k down history-search-forward # filtered by user input
 
 ### VC_WORKSPACE MESS ###############
 
@@ -64,7 +69,7 @@ alias stopvnc vncserver -kill :50
 alias ,ec 'vim ~/.cshrc' # alias to open the cshrc file
 alias ,sc 'source ~/.cshrc' #alias to source the cshrc file
 alias ,ev 'vim ~/.vimrc' # alias to open the vimrc file
-
+alias open 'xdg-open . &'
 # SVN WS Aliases
 alias DoConf 'svn up $VC_WORKSPACE/projects/quark/abc/quark.xml; $VC_WORKSPACE/projects/quark/abc/DoConfig -x $VC_WORKSPACE/projects/quark/abc/*.xml -d $VC_WORKSPACE |& tee DoConf.log ; upAll >> DoConf.log'
 alias upAll 'echo "Updating $VC_WORKSPACE/ip ...."; svn up $VC_WORKSPACE/ip; echo "Updating $VC_WORKSPACE/products/LodeRunner/common ...."; svn up $VC_WORKSPACE/products/LodeRunner/common ; echo "Updating $VC_WORKSPACE/products/LodeRunner/QuarkFP2MPW1 ...."; svn up $VC_WORKSPACE/products/LodeRunner/QuarkFP2MPW1; echo "############"; echo "Updating methodology folder..."; svn up $VC_WORKSPACE/methodology/DesignKit'
@@ -74,7 +79,8 @@ alias swToTag 'svn up $VC_WORKSPACE/projects/quark/abc/quark.xml; ~/My-first-rep
 alias getMissing '~/My-first-repo/scripts/./get_missing_ip_from_repo.sh \!*'
 # Grid
 alias q 'qsub -N "-chsh-" -cwd -j y -o \$JOB_ID.log -M chirayu.shah@nordicsemi.no -m e $*'
-alias qr 'qrsh -cwd -now no -N --chsh-- -pty yes -M chirayu.shah@nordicsemi.no -m beas -q alta-test01 $*'
+alias qr 'qrsh -cwd -now no o-N --chsh-- -pty yes -M chirayu.shah@nordicsemi.no -m beas -q alta-test01 $*'
+alias qacct 'qacct -u chsh -j'
 # Any workspace
 alias toptb 'cd ~/My-first-repo/scripts;. perlwrapper.sh -tb $1 $2'
 alias tb 'cd "`~/My-first-repo/scripts/./superJump.sh -tb \!*`"'
