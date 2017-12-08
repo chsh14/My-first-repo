@@ -58,13 +58,13 @@ check_nike() {
 check_global_sale() {
     nike_us=https://www.nike.com/us/en_us/c/men
     levi_us=http://www.levi.com/US/en_US/
-    #adidas_us=http://www.adidas.com/us/men-outdoor-shoes
+    adidas_us=http://www.adidas.com/us/men-outdoor-shoes
     global_us_sale_exists=$(curl -s "${nike_us}" | grep -ciP "headline.*(sale|extra)")
     #echo "1"
     global_levi_sale_exists=$(curl -s "${levi_us}" | pcregrep -ciM 'promodetail.*\n.*bullet-banner.*\n.*span.*')
     #echo "2"
     #echo "3"
-    #global_adidas_sale=$(curl  --connect-timeout 120 -sL "${adidas_us}" | grep -ci "callout-overlay-content" )
+    global_adidas_sale=$(curl  --connect-timeout 120 -sL "${adidas_us}" | grep -ci "callout-overlay-content" )
     #echo "4"
 
 
