@@ -2,7 +2,7 @@
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 URL_adidas=()
-URL_nike=(https://store.nike.com/us/en_us/pd/dri-fit-cushion-crew-training-socks-large-6-pair/pid-10032697/pgid-11042787 https://www.nike.com/t/element-mens-long-sleeve-half-zip-running-top-olTWJYob/857820-497)
+URL_nike=(https://store.nike.com/us/en_us/pd/dri-fit-cushion-crew-training-socks-large-6-pair/pid-10032697/pgid-11042787 https://www.nike.com/t/element-mens-long-sleeve-half-zip-running-top-olTWJYob https://www.nike.com/t/dri-fit-knit-mens-long-sleeve-running-top-JkTG8ZEm/833565-653)
 
 
 
@@ -35,22 +35,30 @@ check_adidas() {
 check_nike() {
     i=$1
     #printCust "checking $i"
-    price=$(curl --connect-timeout 120 -sL "$i"  | perl -nle 'print for m:product\:price\:am.*content=\"(.*)\":')
+    price=$(curl --connect-timeout 120 -sL "$i"  | grep -iP "lowprice.:" | tr -d ' ' | cut -d ':' -f 2)
     #echo "$price"
-    is_on_sale=$(curl -sL "$i" | perl -nle 'print for m:span class.*product-on-sale:')
+    price2=$(curl --connect-timeout 120 -sL "$i"  | grep -iP "highprice.:" | tr -d ' ' | cut -d ':' -f 2)
+    #echo $price2
+    if [[ "${price}" != "${price2}" ]]; then
+        is_on_sale=1
+        echo "$i , sale_price : $price , standard_price : $price2 " | mail -s "[chsh] SALE notification service " chirayu.shah14@gmail.com
+    else
+        is_on_sale=0
+         echo "item : $i , sale_price : $price , standard_price : $price2 "
+    fi
+    #is_on_sale=$(curl -sL "$i" | perl -nle 'print for m:span class.*product-on-sale:')
     #status=$?
     #echo "$is_on_sale , $status"
     #echo "price: $price"
     if [[ ${is_on_sale} == 1 ]]; then
-        standard_price=$(curl -sL "$i" | perl -nle 'print for m:overridden-local-price.*>(.*)<:')
+    #    standard_price=$(curl -sL "$i" | perl -nle 'print for m:overridden-local-price.*>(.*)<:')
         echo "$i is on SALE right now!!"
-        echo "item : $i , sale_price : $price , standard_price : $standard_price " | mail -s "[chsh] SALE notification service " chirayu.shah14@gmail.com
+        echo "item : $i , sale_price : $price"
     elif [[  x${price} == "x" ]]; then
         echo "$i: Price Not exists.. removed?"
         echo "$i: Item returned null.. Doesnt exist anymore" | mail -s "[chsh] SALE notification service " chirayu.shah14@gmail.com
-    else
-        echo "Current price of $i: ${price}"
     fi
+
 
 }
 
@@ -64,7 +72,7 @@ check_global_sale() {
     global_levi_sale_exists=$(curl -s "${levi_us}" | pcregrep -ciM 'promodetail.*\n.*bullet-banner.*\n.*span.*')
     #echo "2"
     #echo "3"
-    global_adidas_sale=$(curl  --connect-timeout 120 -sL "${adidas_us}" | grep -ci "callout-overlay-content" )
+    #global_adidas_sale=$(curl  --connect-timeout 120 -sL "${adidas_us}" | grep -ci "callout-overlay-content" )
     #echo "4"
 
 
@@ -74,7 +82,7 @@ check_global_sale() {
 
     check_sale $levi_us $global_levi_sale_exists 1 "pcregrep -iM 'promodetail.*\n.*bullet-banner.*\n.*span.*'"
 
-    check_sale $adidas_us $global_adidas_sale 4 "grep -iP \"callout-overlay-content\""
+    #check_sale $adidas_us $global_adidas_sale 4 "grep -iP \"callout-overlay-content\""
 
     #if [[ $global_us_sale_exists > 0 ]]; then
     #    content=$(curl -s "${nike_us}" | grep -i "headline.*sale")
