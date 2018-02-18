@@ -2,7 +2,7 @@
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 URL_adidas=()
-URL_nike=(https://store.nike.com/us/en_us/pd/dri-fit-cushion-crew-training-socks-large-6-pair/pid-10032697/pgid-11042787 https://www.nike.com/t/element-mens-long-sleeve-half-zip-running-top-olTWJYob https://www.nike.com/t/dri-fit-knit-mens-long-sleeve-running-top-JkTG8ZEm/833565-653)
+URL_nike=(https://store.nike.com/us/en_us/pd/dri-fit-cushion-crew-training-socks-large-6-pair/pid-10032697/pgid-11042787 https://www.nike.com/t/element-mens-long-sleeve-half-zip-running-top-olTWJYob https://www.nike.com/t/dri-fit-knit-mens-long-sleeve-running-top-JkTG8ZEm/833565-653 https://www.nike.com/t/vapor-pro-mens-baseball-pants-aEeEjY/747226-106)
 
 
 
